@@ -1,0 +1,109 @@
+            <!-- [ Content Sidebar ] start -->
+            <div class="content-sidebar content-sidebar-md" data-scrollbar-target="#psScrollbarInit">
+                <div class="content-sidebar-header bg-white sticky-top hstack justify-content-between">
+                    <h4 class="fw-bolder mb-0">Topshiriqlar</h4>
+                    <a href="javascript:void(0);" class="app-sidebar-close-trigger d-flex">
+                        <i class="feather-x"></i>
+                    </a>
+                </div>
+<!--                <div class="content-sidebar-header">-->
+<!--                    <a href="javascript:void(0);" class="btn btn-primary w-100" data-bs-toggle="modal"-->
+<!--                       data-bs-target="#addNewTasks">-->
+<!--                        <i class="feather-plus me-2"></i>-->
+<!--                        <span>Qo'shish</span>-->
+<!--                    </a>-->
+<!--                </div>-->
+                <div class="content-sidebar-body">
+                    <ul class="nav flex-column nxl-content-sidebar-item">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'tasks:task_list' %}">
+                                <i class="feather-list"></i>
+                                <span>Barchasi | {{ counts.all }}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'tasks:task_list' %}?status=expired">
+                                <i class="bi bi-hourglass-bottom"></i>
+                                <span>Muddati o'tgan | {{ counts.expired }}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'tasks:task_list' %}?status=in_progress">
+                                <i class="feather-activity"></i>
+                                <span>Bajarilmoqda | {{ counts.in_progress }}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'tasks:task_list' %}?status=in_progress">
+                                <i class="bi bi-check2"></i>
+                                <span>Tasdiqlashda | {{ counts.submitted }}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'tasks:task_list' %}?status=approved">
+                                <i class="bi bi-check2-all"></i>
+                                <span>Bajarilgan | {{ counts.approved }}</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav flex-column nxl-content-sidebar-item">
+                        <li class="px-4 my-2 fs-10 fw-bold text-uppercase text-muted text-spacing-1 d-flex align-items-center justify-content-between">
+                            <span>Daraja bo'yicha</span>
+<!--                            <a href="#">-->
+<!--                                <span class="avatar-text avatar-sm" data-bs-toggle="tooltip" data-bs-trigger="hover"-->
+<!--                                      title="Add New"> <i class="feather-plus"></i> </span>-->
+<!--                            </a>-->
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'tasks:task_list' %}?degree=info">
+                                <span class="wd-7 ht-7 bg-dark rounded-circle"></span>
+                                <span>Ma'lumot uchun | {{ counts.info }}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'tasks:task_list' %}?degree=medium">
+                                <span class="wd-7 ht-7 bg-success rounded-circle"></span>
+                                <span>Ahamiyatli | {{ counts.medium }}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'tasks:task_list' %}?degree=important">
+                                <span class="wd-7 ht-7 bg-primary rounded-circle"></span>
+                                <span>Muhim | {{ counts.important }}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'tasks:task_list' %}?degree=very_important">
+                                <span class="wd-7 ht-7 bg-warning rounded-circle"></span>
+                                <span>Juda muhim | {{ counts.very_important }}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'tasks:task_list' %}?degree=urgent">
+                                <span class="wd-7 ht-7 bg-danger rounded-circle"></span>
+                                <span>Tezkor | {{ counts.urgent }}</span>
+                            </a>
+                        </li>
+                    </ul>
+                    {% if request.user.profile.role == "assigner" %}
+                    <ul class="nav flex-column nxl-content-sidebar-item">
+                        <li class="px-4 my-2 fs-10 fw-bold text-uppercase text-muted text-spacing-1 d-flex align-items-center justify-content-between">
+                            <span>Ishchilar bo'yicha</span>
+<!--                            <a href="javascript:void(0);">-->
+<!--                                <span class="avatar-text avatar-sm" data-bs-toggle="tooltip" data-bs-trigger="hover"-->
+<!--                                      title="Add New"> <i class="feather-plus"></i> </span>-->
+<!--                            </a>-->
+                        </li>
+                        {% for worker, task_count in workers_task_count.items %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/tasks/?worker_id={{worker.id}}">
+                                <i class="bi bi-person-circle"></i>
+                                <span>{{ worker.full_name }} | {{ task_count }}</span>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+            <!-- [ Content Sidebar  ] end -->

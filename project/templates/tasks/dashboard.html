@@ -1,0 +1,957 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+
+
+{% block special_style %}
+<link rel="stylesheet" type="text/css" href="{% static 'assets/vendors/css/daterangepicker.min.css' %}" />
+{% endblock %}
+
+
+{% block content %}
+    <main class="nxl-container">
+        <div class="nxl-content">
+            <!-- [ page-header ] start -->
+            <div class="page-header">
+                <div class="page-header-left d-flex align-items-center">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10">Nazorat paneli</h5>
+                    </div>
+<!--                    <ul class="breadcrumb">-->
+<!--                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>-->
+<!--                        <li class="breadcrumb-item">Dashboard</li>-->
+<!--                    </ul>-->
+                </div>
+                <div class="page-header-right ms-auto">
+                    <div class="page-header-right-items">
+                        <div class="d-flex d-md-none">
+                            <a href="javascript:void(0)" class="page-header-right-close-toggle">
+                                <i class="feather-arrow-left me-2"></i>
+                                <span>Back</span>
+                            </a>
+                        </div>
+                        <div class="d-flex align-items-center gap-2 page-header-right-items-wrapper">
+                            <div id="reportrange" class="reportrange-picker d-flex align-items-center">
+                                <span class="reportrange-picker-field"></span>
+                            </div>
+                            <div class="dropdown filter-dropdown">
+                                <a class="btn btn-md btn-light-brand" data-bs-toggle="dropdown" data-bs-offset="0, 10" data-bs-auto-close="outside">
+                                    <i class="feather-filter me-2"></i>
+                                    <span>Filter</span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <div class="dropdown-item">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="Role" checked="checked" />
+                                            <label class="custom-control-label c-pointer" for="Role">Role</label>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-item">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="Team" checked="checked" />
+                                            <label class="custom-control-label c-pointer" for="Team">Team</label>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-item">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="Email" checked="checked" />
+                                            <label class="custom-control-label c-pointer" for="Email">Email</label>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-item">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="Member" checked="checked" />
+                                            <label class="custom-control-label c-pointer" for="Member">Member</label>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-item">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="Recommendation" checked="checked" />
+                                            <label class="custom-control-label c-pointer" for="Recommendation">Recommendation</label>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-divider"></div>
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <i class="feather-plus me-3"></i>
+                                        <span>Create New</span>
+                                    </a>
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <i class="feather-filter me-3"></i>
+                                        <span>Manage Filter</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-md-none d-flex align-items-center">
+                        <a href="javascript:void(0)" class="page-header-right-open-toggle">
+                            <i class="feather-align-right fs-20"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- [ page-header ] end -->
+            <!-- [ Main Content ] start -->
+            <div class="main-content">
+                <div class="row">
+                    <!-- [Invoices Awaiting Payment] start -->
+                    <div class="col-xxl-3 col-md-6">
+                        <div class="card stretch stretch-full">
+                            <div class="card-body">
+                                <div class="d-flex align-items-start justify-content-between mb-4">
+                                    <div class="d-flex gap-4 align-items-center">
+                                        <div class="avatar-text avatar-lg bg-gray-200">
+                                            <i class="bi bi-calendar-event"></i>
+                                        </div>
+                                        <div>
+                                            <div class="fs-4 fw-bold text-dark"><span class="counter">{{ todays_tasks.count }}</span>/<span class="counter">{{ todays_approved_tasks.count }}</span></div>
+                                            <h3 class="fs-13 fw-semibold text-truncate-1-line">Bugungi topshiriqlar</h3>
+                                        </div>
+                                    </div>
+                                    <a href="javascript:void(0);" class="">
+                                        <i class="feather-more-vertical"></i>
+                                    </a>
+                                </div>
+                                <div class="pt-4">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <a href="javascript:void(0);" class="fs-12 fw-medium text-muted text-truncate-1-line">{{ todays_approved_tasks.count }} tasi bajarilgan </a>
+                                        <div class="w-100 text-end">
+                                            <span class="fs-12 text-dark">Jami: {{ department_tasks.count }}</span>
+                                            <span class="fs-11 text-muted">ta</span>
+                                        </div>
+                                    </div>
+                                    <div class="progress mt-2 ht-3">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{ todays_tasks.count|proportion:todays_approved_tasks.count }}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [Invoices Awaiting Payment] end -->
+                    <!-- [Converted Leads] start -->
+                    <div class="col-xxl-3 col-md-6">
+                        <div class="card stretch stretch-full">
+                            <div class="card-body">
+                                <div class="d-flex align-items-start justify-content-between mb-4">
+                                    <div class="d-flex gap-4 align-items-center">
+                                        <div class="avatar-text avatar-lg bg-gray-200">
+                                            <i class="feather-cast"></i>
+                                        </div>
+                                        <div>
+                                            <div class="fs-4 fw-bold text-dark"><span class="counter">{{ in_progress_tasks.count }}</span></div>
+                                            <h3 class="fs-13 fw-semibold text-truncate-1-line">Bajarilmoqda</h3>
+                                        </div>
+                                    </div>
+                                    <a href="javascript:void(0);" class="">
+                                        <i class="feather-more-vertical"></i>
+                                    </a>
+                                </div>
+                                <div class="pt-4">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <a href="javascript:void(0);" class="fs-12 fw-medium text-muted text-truncate-1-line">Jarayondagi topshriqlar </a>
+                                        <div class="w-100 text-end">
+                                            <span class="fs-12 text-dark">{{ in_progress_tasks.count }} ta </span>
+                                            <span class="fs-11 text-muted">({{ in_progress_tasks.count|proportion:department_tasks.count }}%)</span>
+                                        </div>
+                                    </div>
+                                    <div class="progress mt-2 ht-3">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: {{ in_progress_tasks.count|proportion:department_tasks.count }}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [Converted Leads] end -->
+                    <!-- [Projects In Progress] start -->
+                    <div class="col-xxl-3 col-md-6">
+                        <div class="card stretch stretch-full">
+                            <div class="card-body">
+                                <div class="d-flex align-items-start justify-content-between mb-4">
+                                    <div class="d-flex gap-4 align-items-center">
+                                        <div class="avatar-text avatar-lg bg-gray-200">
+                                            <i class="bi bi-check2-all"></i>
+                                        </div>
+                                        <div>
+                                            <div class="fs-4 fw-bold text-dark"><span class="counter">{{ approved_tasks.count }}</span></div>
+                                            <h3 class="fs-13 fw-semibold text-truncate-1-line">Bajarilgan</h3>
+                                        </div>
+                                    </div>
+                                    <a href="javascript:void(0);" class="">
+                                        <i class="feather-more-vertical"></i>
+                                    </a>
+                                </div>
+                                <div class="pt-4">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <a href="javascript:void(0);" class="fs-12 fw-medium text-muted text-truncate-1-line">Bajarilgan topshiriqlar</a>
+                                        <div class="w-100 text-end">
+                                            <span class="fs-12 text-dark">{{ approved_tasks.count }} ta</span>
+                                            <span class="fs-11 text-muted">({{ approved_tasks.count|proportion:department_tasks.count }}%)</span>
+                                        </div>
+                                    </div>
+                                    <div class="progress mt-2 ht-3">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ approved_tasks.count|proportion:department_tasks.count }}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [Projects In Progress] end -->
+                    <!-- [Conversion Rate] start -->
+                    <div class="col-xxl-3 col-md-6">
+                        <div class="card stretch stretch-full">
+                            <div class="card-body">
+                                <div class="d-flex align-items-start justify-content-between mb-4">
+                                    <div class="d-flex gap-4 align-items-center">
+                                        <div class="avatar-text avatar-lg bg-gray-200">
+                                            <i class="bi bi-x-octagon"></i>
+                                        </div>
+                                        <div>
+                                            <div class="fs-4 fw-bold text-dark"><span class="counter">{{ expired_tasks.count }}</span></div>
+                                            <h3 class="fs-13 fw-semibold text-truncate-1-line">Bajarilmagan</h3>
+                                        </div>
+                                    </div>
+                                    <a href="javascript:void(0);" class="">
+                                        <i class="feather-more-vertical"></i>
+                                    </a>
+                                </div>
+                                <div class="pt-4">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <a href="javascript:void(0);" class="fs-12 fw-medium text-muted text-truncate-1-line"> Bajarilmagan topshriqlar </a>
+                                        <div class="w-100 text-end">
+                                            <span class="fs-12 text-dark">{{ expired_tasks.count }} ta</span>
+                                            <span class="fs-11 text-muted">({{ expired_tasks.count|proportion:department_tasks.count }}%)</span>
+                                        </div>
+                                    </div>
+                                    <div class="progress mt-2 ht-3">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: {{ expired_tasks.count|proportion:department_tasks.count }}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [Conversion Rate] end -->
+                    <!-- [Upcomming Schedule] start -->
+                    <div class="col-xxl-4">
+                        <div class="card stretch stretch-full">
+                            <div class="card-header">
+                                <h5 class="card-title">Bugungi topshiriqlar</h5>
+                                <div class="card-header-action">
+                                    <div class="card-header-btn">
+                                        <div data-bs-toggle="tooltip" title="o'chirish">
+                                            <a href="javascript:void(0);" class="avatar-text avatar-xs bg-danger" data-bs-toggle="remove"> </a>
+                                        </div>
+                                        <div data-bs-toggle="tooltip" title="yangilash">
+                                            <a href="javascript:void(0);" class="avatar-text avatar-xs bg-warning" data-bs-toggle="refresh"> </a>
+                                        </div>
+                                        <div data-bs-toggle="tooltip" title="kattalashtirish">
+                                            <a href="javascript:void(0);" class="avatar-text avatar-xs bg-success" data-bs-toggle="expand"> </a>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown">
+                                        <a href="javascript:void(0);" class="avatar-text avatar-sm" data-bs-toggle="dropdown" data-bs-offset="25, 25">
+                                            <div data-bs-toggle="tooltip" title="Menyu">
+                                                <i class="feather-more-vertical"></i>
+                                            </div>
+                                        </a>
+<!--                                        <div class="dropdown-menu dropdown-menu-end">-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-at-sign"></i>New</a>-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-calendar"></i>Event</a>-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-bell"></i>Snoozed</a>-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-trash-2"></i>Deleted</a>-->
+<!--                                            <div class="dropdown-divider"></div>-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-settings"></i>Settings</a>-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-life-buoy"></i>Tips & Tricks</a>-->
+<!--                                        </div>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <!--! BEGIN: [Events] !-->
+                                {% for t_task in todays_tasks %}
+                                <div class="p-3 border border-dashed rounded-3 mb-3">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="wd-50 ht-50 bg-soft-primary text-primary lh-1 d-flex align-items-center justify-content-center flex-column rounded-2 schedule-date">
+                                                <span class="fs-18 fw-bold mb-1 d-block">20</span>
+                                                <span class="fs-10 fw-semibold text-uppercase d-block">Dec</span>
+                                            </div>
+                                            <div class="text-dark">
+                                                <a href="/tasks/" class="fs-13 fw-bold mb-2 text-truncate-1-line">{{ t_task.title }}</a>
+                                                <span class="fs-11 fw-normal text-muted text-truncate-1-line">{{ t_task.deadline|date:'H:i' }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="img-group lh-0 ms-3 justify-content-start d-none d-sm-flex">
+                                            {% for performer in t_task.performers.all %}
+                                            <a href="/tasks/" class="avatar-image avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="{{ performer.full_name }}">
+                                                <img src="{{ performer.photo_url }}" class="img-fluid" alt="image">
+                                            </a>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% empty %}
+                                <h5>Muddati bugun tugovchi topshiriqlar mavjud emas.</h5>
+                                {% endfor %}
+<!--                                &lt;!&ndash;! BEGIN: [Events] !&ndash;&gt;-->
+<!--                                <div class="p-3 border border-dashed rounded-3 mb-3">-->
+<!--                                    <div class="d-flex justify-content-between">-->
+<!--                                        <div class="d-flex align-items-center gap-3">-->
+<!--                                            <div class="wd-50 ht-50 bg-soft-warning text-warning lh-1 d-flex align-items-center justify-content-center flex-column rounded-2 schedule-date">-->
+<!--                                                <span class="fs-18 fw-bold mb-1 d-block">30</span>-->
+<!--                                                <span class="fs-10 fw-semibold text-uppercase d-block">Dec</span>-->
+<!--                                            </div>-->
+<!--                                            <div class="text-dark">-->
+<!--                                                <a href="javascript:void(0);" class="fs-13 fw-bold mb-2 text-truncate-1-line">Admin Design Concept</a>-->
+<!--                                                <span class="fs-11 fw-normal text-muted text-truncate-1-line">10:00am - 12:00pm</span>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="img-group lh-0 ms-3 justify-content-start d-none d-sm-flex">-->
+<!--                                            <a href="javascript:void(0)" class="avatar-image avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Janette Dalton">-->
+<!--                                                <img src="./../assets/images/avatar/2.png" class="img-fluid" alt="image">-->
+<!--                                            </a>-->
+<!--                                            <a href="javascript:void(0)" class="avatar-image avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Michael Ksen">-->
+<!--                                                <img src="./../assets/images/avatar/3.png" class="img-fluid" alt="image">-->
+<!--                                            </a>-->
+<!--                                            <a href="javascript:void(0)" class="avatar-image avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Marianne Audrey">-->
+<!--                                                <img src="./../assets/images/avatar/5.png" class="img-fluid" alt="image">-->
+<!--                                            </a>-->
+<!--                                            <a href="javascript:void(0)" class="avatar-image avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Marianne Audrey">-->
+<!--                                                <img src="./../assets/images/avatar/6.png" class="img-fluid" alt="image">-->
+<!--                                            </a>-->
+<!--                                            <a href="javascript:void(0)" class="avatar-text avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Explorer More">-->
+<!--                                                <i class="feather-more-horizontal"></i>-->
+<!--                                            </a>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                &lt;!&ndash;! BEGIN: [Events] !&ndash;&gt;-->
+<!--                                <div class="p-3 border border-dashed rounded-3 mb-3">-->
+<!--                                    <div class="d-flex justify-content-between">-->
+<!--                                        <div class="d-flex align-items-center gap-3">-->
+<!--                                            <div class="wd-50 ht-50 bg-soft-success text-success lh-1 d-flex align-items-center justify-content-center flex-column rounded-2 schedule-date">-->
+<!--                                                <span class="fs-18 fw-bold mb-1 d-block">17</span>-->
+<!--                                                <span class="fs-10 fw-semibold text-uppercase d-block">Dec</span>-->
+<!--                                            </div>-->
+<!--                                            <div class="text-dark">-->
+<!--                                                <a href="javascript:void(0);" class="fs-13 fw-bold mb-2 text-truncate-1-line">Standup Team Meeting</a>-->
+<!--                                                <span class="fs-11 fw-normal text-muted text-truncate-1-line">8:00am - 9:00am</span>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="img-group lh-0 ms-3 justify-content-start d-none d-sm-flex">-->
+<!--                                            <a href="javascript:void(0)" class="avatar-image avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Janette Dalton">-->
+<!--                                                <img src="./../assets/images/avatar/2.png" class="img-fluid" alt="image">-->
+<!--                                            </a>-->
+<!--                                            <a href="javascript:void(0)" class="avatar-image avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Michael Ksen">-->
+<!--                                                <img src="./../assets/images/avatar/3.png" class="img-fluid" alt="image">-->
+<!--                                            </a>-->
+<!--                                            <a href="javascript:void(0)" class="avatar-image avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Socrates Itumay">-->
+<!--                                                <img src="./../assets/images/avatar/4.png" class="img-fluid" alt="image">-->
+<!--                                            </a>-->
+<!--                                            <a href="javascript:void(0)" class="avatar-image avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Marianne Audrey">-->
+<!--                                                <img src="./../assets/images/avatar/5.png" class="img-fluid" alt="image">-->
+<!--                                            </a>-->
+<!--                                            <a href="javascript:void(0)" class="avatar-text avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Explorer More">-->
+<!--                                                <i class="feather-more-horizontal"></i>-->
+<!--                                            </a>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                &lt;!&ndash;! BEGIN: [Events] !&ndash;&gt;-->
+<!--                                <div class="p-3 border border-dashed rounded-3 mb-0">-->
+<!--                                    <div class="d-flex justify-content-between">-->
+<!--                                        <div class="d-flex align-items-center gap-3">-->
+<!--                                            <div class="wd-50 ht-50 bg-soft-danger text-danger lh-1 d-flex align-items-center justify-content-center flex-column rounded-2 schedule-date">-->
+<!--                                                <span class="fs-18 fw-bold mb-1 d-block">25</span>-->
+<!--                                                <span class="fs-10 fw-semibold text-uppercase d-block">Dec</span>-->
+<!--                                            </div>-->
+<!--                                            <div class="text-dark">-->
+<!--                                                <a href="javascript:void(0);" class="fs-13 fw-bold mb-2 text-truncate-1-line">Zoom Team Meeting</a>-->
+<!--                                                <span class="fs-11 fw-normal text-muted text-truncate-1-line">03:30pm - 05:30pm</span>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="img-group lh-0 ms-3 justify-content-start d-none d-sm-flex">-->
+<!--                                            <a href="javascript:void(0)" class="avatar-image avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Janette Dalton">-->
+<!--                                                <img src="./../assets/images/avatar/2.png" class="img-fluid" alt="image">-->
+<!--                                            </a>-->
+<!--                                            <a href="javascript:void(0)" class="avatar-image avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Socrates Itumay">-->
+<!--                                                <img src="./../assets/images/avatar/4.png" class="img-fluid" alt="image">-->
+<!--                                            </a>-->
+<!--                                            <a href="javascript:void(0)" class="avatar-image avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Marianne Audrey">-->
+<!--                                                <img src="./../assets/images/avatar/5.png" class="img-fluid" alt="image">-->
+<!--                                            </a>-->
+<!--                                            <a href="javascript:void(0)" class="avatar-image avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Marianne Audrey">-->
+<!--                                                <img src="./../assets/images/avatar/6.png" class="img-fluid" alt="image">-->
+<!--                                            </a>-->
+<!--                                            <a href="javascript:void(0)" class="avatar-text avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Explorer More">-->
+<!--                                                <i class="feather-more-horizontal"></i>-->
+<!--                                            </a>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+                            </div>
+                            <a href="javascript:void(0);" class="card-footer fs-11 fw-bold text-uppercase text-center py-4">More Schedule</a>
+                        </div>
+                    </div>
+                    <!-- [Upcomming Schedule] end -->
+                    <!--! BEGIN: [Project Status] !-->
+                    <div class="col-xxl-4">
+                        <div class="card stretch stretch-full">
+                            <div class="card-header">
+                                <h5 class="card-title">Ishchi xodimlar statistikasi</h5>
+                                <div class="card-header-action">
+                                    <div class="card-header-btn">
+                                        <div data-bs-toggle="tooltip" title="o'chirish">
+                                            <a href="javascript:void(0);" class="avatar-text avatar-xs bg-danger" data-bs-toggle="remove"> </a>
+                                        </div>
+                                        <div data-bs-toggle="tooltip" title="yangilash">
+                                            <a href="javascript:void(0);" class="avatar-text avatar-xs bg-warning" data-bs-toggle="refresh"> </a>
+                                        </div>
+                                        <div data-bs-toggle="tooltip" title="kattalashtirish">
+                                            <a href="javascript:void(0);" class="avatar-text avatar-xs bg-success" data-bs-toggle="expand"> </a>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown">
+                                        <a href="javascript:void(0);" class="avatar-text avatar-sm" data-bs-toggle="dropdown" data-bs-offset="25, 25">
+                                            <div data-bs-toggle="tooltip" title="Options">
+                                                <i class="feather-more-vertical"></i>
+                                            </div>
+                                        </a>
+<!--                                        <div class="dropdown-menu dropdown-menu-end">-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-at-sign"></i>New</a>-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-calendar"></i>Event</a>-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-bell"></i>Snoozed</a>-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-trash-2"></i>Deleted</a>-->
+<!--                                            <div class="dropdown-divider"></div>-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-settings"></i>Settings</a>-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-life-buoy"></i>Tips & Tricks</a>-->
+<!--                                        </div>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body custom-card-action">
+                                <div class="mb-3">
+                                    {% for performer in performers %}
+                                    <div class="mb-4 pb-1 d-flex">
+                                        <div class="d-flex w-50 align-items-center me-3">
+                                            <img src="{{ performer.photo_url }}" alt="laravel-logo" class="me-3" width="35" />
+                                            <div>
+                                                <a href="javascript:void(0);" class="text-truncate-1-line">{{ performer.full_name }}</a>
+                                                <div class="fs-12 text-muted">{{ performer.position }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-grow-1 align-items-center">
+                                            <div class="progress w-100 me-3 ht-5">
+                                                {% if performer.task_completion_rate > 67 %}
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: {{ performer.task_completion_rate }}%;" aria-valuenow="{{ performer.task_completion_rate }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                {% elif performer.task_completion_rate > 33 %}
+                                                <div class="progress-bar bg-warning" role="progressbar" style="width: {{ performer.task_completion_rate }}%;" aria-valuenow="{{ performer.task_completion_rate }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                {% elif performer.task_completion_rate >= 0 %}
+                                                <div class="progress-bar bg-danger" role="progressbar" style="width: {{ performer.task_completion_rate }}%;" aria-valuenow="{{ performer.task_completion_rate }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                {% endif %}
+                                            </div>
+                                            <span class="text-muted">{{ performer.task_completion_rate }}%</span>
+                                        </div>
+                                    </div>
+                                    <hr class="border-dashed my-3" />
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <a href="javascript:void(0);" class="card-footer fs-11 fw-bold text-uppercase text-center">Upcomming Projects</a>
+                        </div>
+                    </div>
+                    <!--! END: [Project Status] !-->
+                    <!-- [Project Calendar] start -->
+                    <div class="col-xxl-4">
+                        <div class="card stretch stretch-full">
+                            <div id="project-calendar"></div>
+                        </div>
+                    </div>
+                    <!-- [Project Calendar] end -->
+<!--                    &lt;!&ndash; [Mini] start &ndash;&gt;-->
+<!--                    <div class="col-lg-4">-->
+<!--                        <div class="card mb-4 stretch stretch-full">-->
+<!--                            <div class="card-header d-flex align-items-center justify-content-between">-->
+<!--                                <div class="d-flex gap-3 align-items-center">-->
+<!--                                    <div class="avatar-text">-->
+<!--                                        <i class="feather feather-star"></i>-->
+<!--                                    </div>-->
+<!--                                    <div>-->
+<!--                                        <div class="fw-semibold text-dark">Tasks Completed</div>-->
+<!--                                        <div class="fs-12 text-muted">22/35 completed</div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="fs-4 fw-bold text-dark">22/35</div>-->
+<!--                            </div>-->
+<!--                            <div class="card-body d-flex align-items-center justify-content-between gap-4">-->
+<!--                                <div id="task-completed-area-chart"></div>-->
+<!--                                <div class="fs-12 text-muted text-nowrap">-->
+<!--                                    <span class="fw-semibold text-primary">28% more</span><br />-->
+<!--                                    <span>from last week</span>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-lg-4">-->
+<!--                        <div class="card mb-4 stretch stretch-full">-->
+<!--                            <div class="card-header d-flex align-items-center justify-content-between">-->
+<!--                                <div class="d-flex gap-3 align-items-center">-->
+<!--                                    <div class="avatar-text">-->
+<!--                                        <i class="feather feather-file-text"></i>-->
+<!--                                    </div>-->
+<!--                                    <div>-->
+<!--                                        <div class="fw-semibold text-dark">New Tasks</div>-->
+<!--                                        <div class="fs-12 text-muted">0/20 tasks</div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="fs-4 fw-bold text-dark">5/20</div>-->
+<!--                            </div>-->
+<!--                            <div class="card-body d-flex align-items-center justify-content-between gap-4">-->
+<!--                                <div id="new-tasks-area-chart"></div>-->
+<!--                                <div class="fs-12 text-muted text-nowrap">-->
+<!--                                    <span class="fw-semibold text-success">34% more</span><br />-->
+<!--                                    <span>from last week</span>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-lg-4">-->
+<!--                        <div class="card mb-4 stretch stretch-full">-->
+<!--                            <div class="card-header d-flex align-items-center justify-content-between">-->
+<!--                                <div class="d-flex gap-3 align-items-center">-->
+<!--                                    <div class="avatar-text">-->
+<!--                                        <i class="feather feather-airplay"></i>-->
+<!--                                    </div>-->
+<!--                                    <div>-->
+<!--                                        <div class="fw-semibold text-dark">Project Done</div>-->
+<!--                                        <div class="fs-12 text-muted">20/30 project</div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="fs-4 fw-bold text-dark">20/30</div>-->
+<!--                            </div>-->
+<!--                            <div class="card-body d-flex align-items-center justify-content-between gap-4">-->
+<!--                                <div id="project-done-area-chart"></div>-->
+<!--                                <div class="fs-12 text-muted text-nowrap">-->
+<!--                                    <span class="fw-semibold text-danger">42% more</span><br />-->
+<!--                                    <span>from last week</span>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    &lt;!&ndash; [Mini] end !&ndash;&gt;-->
+<!--                    &lt;!&ndash; [Leads Overview] start &ndash;&gt;-->
+<!--                    <div class="col-xxl-4">-->
+<!--                        <div class="card stretch stretch-full">-->
+<!--                            <div class="card-header">-->
+<!--                                <h5 class="card-title">Leads Overview</h5>-->
+<!--                                <div class="card-header-action">-->
+<!--                                    <div class="card-header-btn">-->
+<!--                                        <div data-bs-toggle="tooltip" title="Delete">-->
+<!--                                            <a href="javascript:void(0);" class="avatar-text avatar-xs bg-danger" data-bs-toggle="remove"> </a>-->
+<!--                                        </div>-->
+<!--                                        <div data-bs-toggle="tooltip" title="Refresh">-->
+<!--                                            <a href="javascript:void(0);" class="avatar-text avatar-xs bg-warning" data-bs-toggle="refresh"> </a>-->
+<!--                                        </div>-->
+<!--                                        <div data-bs-toggle="tooltip" title="Maximize/Minimize">-->
+<!--                                            <a href="javascript:void(0);" class="avatar-text avatar-xs bg-success" data-bs-toggle="expand"> </a>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="dropdown">-->
+<!--                                        <a href="javascript:void(0);" class="avatar-text avatar-sm" data-bs-toggle="dropdown" data-bs-offset="25, 25">-->
+<!--                                            <div data-bs-toggle="tooltip" title="Options">-->
+<!--                                                <i class="feather-more-vertical"></i>-->
+<!--                                            </div>-->
+<!--                                        </a>-->
+<!--                                        <div class="dropdown-menu dropdown-menu-end">-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-at-sign"></i>New</a>-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-calendar"></i>Event</a>-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-bell"></i>Snoozed</a>-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-trash-2"></i>Deleted</a>-->
+<!--                                            <div class="dropdown-divider"></div>-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-settings"></i>Settings</a>-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-life-buoy"></i>Tips & Tricks</a>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="card-body custom-card-action">-->
+<!--                                <div id="leads-overview-donut"></div>-->
+<!--                                <div class="row g-2">-->
+<!--                                    <div class="col-4">-->
+<!--                                        <a href="javascript:void(0);" class="p-2 hstack gap-2 rounded border border-dashed border-gray-5">-->
+<!--                                            <span class="wd-7 ht-7 rounded-circle d-inline-block" style="background-color: #3454d1"></span>-->
+<!--                                            <span>New<span class="fs-10 text-muted ms-1">(20K)</span></span>-->
+<!--                                        </a>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-4">-->
+<!--                                        <a href="javascript:void(0);" class="p-2 hstack gap-2 rounded border border-dashed border-gray-5">-->
+<!--                                            <span class="wd-7 ht-7 rounded-circle d-inline-block" style="background-color: #0d519e"></span>-->
+<!--                                            <span>Contacted<span class="fs-10 text-muted ms-1">(15K)</span></span>-->
+<!--                                        </a>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-4">-->
+<!--                                        <a href="javascript:void(0);" class="p-2 hstack gap-2 rounded border border-dashed border-gray-5">-->
+<!--                                            <span class="wd-7 ht-7 rounded-circle d-inline-block" style="background-color: #1976d2"></span>-->
+<!--                                            <span>Qualified<span class="fs-10 text-muted ms-1">(10K)</span></span>-->
+<!--                                        </a>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-4">-->
+<!--                                        <a href="javascript:void(0);" class="p-2 hstack gap-2 rounded border border-dashed border-gray-5">-->
+<!--                                            <span class="wd-7 ht-7 rounded-circle d-inline-block" style="background-color: #1e88e5"></span>-->
+<!--                                            <span>Working<span class="fs-10 text-muted ms-1">(18K)</span></span>-->
+<!--                                        </a>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-4">-->
+<!--                                        <a href="javascript:void(0);" class="p-2 hstack gap-2 rounded border border-dashed border-gray-5">-->
+<!--                                            <span class="wd-7 ht-7 rounded-circle d-inline-block" style="background-color: #2196f3"></span>-->
+<!--                                            <span>Customer<span class="fs-10 text-muted ms-1">(10K)</span></span>-->
+<!--                                        </a>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-4">-->
+<!--                                        <a href="javascript:void(0);" class="p-2 hstack gap-2 rounded border border-dashed border-gray-5">-->
+<!--                                            <span class="wd-7 ht-7 rounded-circle d-inline-block" style="background-color: #42a5f5"></span>-->
+<!--                                            <span>Proposal<span class="fs-10 text-muted ms-1">(15K)</span></span>-->
+<!--                                        </a>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-4">-->
+<!--                                        <a href="javascript:void(0);" class="p-2 hstack gap-2 rounded border border-dashed border-gray-5">-->
+<!--                                            <span class="wd-7 ht-7 rounded-circle d-inline-block" style="background-color: #64b5f6"></span>-->
+<!--                                            <span>Leads<span class="fs-10 text-muted ms-1">(16K)</span></span>-->
+<!--                                        </a>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-4">-->
+<!--                                        <a href="javascript:void(0);" class="p-2 hstack gap-2 rounded border border-dashed border-gray-5">-->
+<!--                                            <span class="wd-7 ht-7 rounded-circle d-inline-block" style="background-color: #90caf9"></span>-->
+<!--                                            <span>Progress<span class="fs-10 text-muted ms-1">(14K)</span></span>-->
+<!--                                        </a>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-4">-->
+<!--                                        <a href="javascript:void(0);" class="p-2 hstack gap-2 rounded border border-dashed border-gray-5">-->
+<!--                                            <span class="wd-7 ht-7 rounded-circle d-inline-block" style="background-color: #aad6fa"></span>-->
+<!--                                            <span>Others<span class="fs-10 text-muted ms-1">(10K)</span></span>-->
+<!--                                        </a>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    &lt;!&ndash; [Leads Overview] end &ndash;&gt;-->
+<!--                    &lt;!&ndash; [Latest Leads] start &ndash;&gt;-->
+<!--                    <div class="col-xxl-8">-->
+<!--                        <div class="card stretch stretch-full">-->
+<!--                            <div class="card-header">-->
+<!--                                <h5 class="card-title">Latest Leads</h5>-->
+<!--                                <div class="card-header-action">-->
+<!--                                    <div class="card-header-btn">-->
+<!--                                        <div data-bs-toggle="tooltip" title="Delete">-->
+<!--                                            <a href="javascript:void(0);" class="avatar-text avatar-xs bg-danger" data-bs-toggle="remove"> </a>-->
+<!--                                        </div>-->
+<!--                                        <div data-bs-toggle="tooltip" title="Refresh">-->
+<!--                                            <a href="javascript:void(0);" class="avatar-text avatar-xs bg-warning" data-bs-toggle="refresh"> </a>-->
+<!--                                        </div>-->
+<!--                                        <div data-bs-toggle="tooltip" title="Maximize/Minimize">-->
+<!--                                            <a href="javascript:void(0);" class="avatar-text avatar-xs bg-success" data-bs-toggle="expand"> </a>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="dropdown">-->
+<!--                                        <a href="javascript:void(0);" class="avatar-text avatar-sm" data-bs-toggle="dropdown" data-bs-offset="25, 25">-->
+<!--                                            <div data-bs-toggle="tooltip" title="Options">-->
+<!--                                                <i class="feather-more-vertical"></i>-->
+<!--                                            </div>-->
+<!--                                        </a>-->
+<!--                                        <div class="dropdown-menu dropdown-menu-end">-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-at-sign"></i>New</a>-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-calendar"></i>Event</a>-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-bell"></i>Snoozed</a>-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-trash-2"></i>Deleted</a>-->
+<!--                                            <div class="dropdown-divider"></div>-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-settings"></i>Settings</a>-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-life-buoy"></i>Tips & Tricks</a>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="card-body custom-card-action p-0">-->
+<!--                                <div class="table-responsive">-->
+<!--                                    <table class="table table-hover mb-0">-->
+<!--                                        <thead>-->
+<!--                                            <tr class="border-b">-->
+<!--                                                <th scope="row">Users</th>-->
+<!--                                                <th>Proposal</th>-->
+<!--                                                <th>Date</th>-->
+<!--                                                <th>Status</th>-->
+<!--                                                <th class="text-end">Actions</th>-->
+<!--                                            </tr>-->
+<!--                                        </thead>-->
+<!--                                        <tbody>-->
+<!--                                            <tr>-->
+<!--                                                <td>-->
+<!--                                                    <div class="d-flex align-items-center gap-3">-->
+<!--                                                        <div class="avatar-image">-->
+<!--                                                            <img src="./../assets/images/avatar/2.png" alt="" class="img-fluid" />-->
+<!--                                                        </div>-->
+<!--                                                        <a href="javascript:void(0);">-->
+<!--                                                            <span class="d-block">Archie Cantones</span>-->
+<!--                                                            <span class="fs-12 d-block fw-normal text-muted">arcie.tones@gmail.com</span>-->
+<!--                                                        </a>-->
+<!--                                                    </div>-->
+<!--                                                </td>-->
+<!--                                                <td>-->
+<!--                                                    <span class="badge bg-gray-200 text-dark">Sent</span>-->
+<!--                                                </td>-->
+<!--                                                <td>11/06/2023 10:53</td>-->
+<!--                                                <td>-->
+<!--                                                    <span class="badge bg-soft-success text-success">Completed</span>-->
+<!--                                                </td>-->
+<!--                                                <td class="text-end">-->
+<!--                                                    <a href="javascript:void(0);"><i class="feather-more-vertical"></i></a>-->
+<!--                                                </td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>-->
+<!--                                                    <div class="d-flex align-items-center gap-3">-->
+<!--                                                        <div class="avatar-image">-->
+<!--                                                            <img src="./../assets/images/avatar/3.png" alt="" class="img-fluid" />-->
+<!--                                                        </div>-->
+<!--                                                        <a href="javascript:void(0);">-->
+<!--                                                            <span class="d-block">Holmes Cherryman</span>-->
+<!--                                                            <span class="fs-12 d-block fw-normal text-muted">golms.chan@gmail.com</span>-->
+<!--                                                        </a>-->
+<!--                                                    </div>-->
+<!--                                                </td>-->
+<!--                                                <td>-->
+<!--                                                    <span class="badge bg-gray-200 text-dark">New</span>-->
+<!--                                                </td>-->
+<!--                                                <td>11/06/2023 10:53</td>-->
+<!--                                                <td>-->
+<!--                                                    <span class="badge bg-soft-primary text-primary">In Progress </span>-->
+<!--                                                </td>-->
+<!--                                                <td class="text-end">-->
+<!--                                                    <a href="javascript:void(0);"><i class="feather-more-vertical"></i></a>-->
+<!--                                                </td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>-->
+<!--                                                    <div class="d-flex align-items-center gap-3">-->
+<!--                                                        <div class="avatar-image">-->
+<!--                                                            <img src="./../assets/images/avatar/4.png" alt="" class="img-fluid" />-->
+<!--                                                        </div>-->
+<!--                                                        <a href="javascript:void(0);">-->
+<!--                                                            <span class="d-block">Malanie Hanvey</span>-->
+<!--                                                            <span class="fs-12 d-block fw-normal text-muted">lanie.nveyn@gmail.com</span>-->
+<!--                                                        </a>-->
+<!--                                                    </div>-->
+<!--                                                </td>-->
+<!--                                                <td>-->
+<!--                                                    <span class="badge bg-gray-200 text-dark">Sent</span>-->
+<!--                                                </td>-->
+<!--                                                <td>11/06/2023 10:53</td>-->
+<!--                                                <td>-->
+<!--                                                    <span class="badge bg-soft-success text-success">Completed</span>-->
+<!--                                                </td>-->
+<!--                                                <td class="text-end">-->
+<!--                                                    <a href="javascript:void(0);"><i class="feather-more-vertical"></i></a>-->
+<!--                                                </td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>-->
+<!--                                                    <div class="d-flex align-items-center gap-3">-->
+<!--                                                        <div class="avatar-image">-->
+<!--                                                            <img src="./../assets/images/avatar/5.png" alt="" class="img-fluid" />-->
+<!--                                                        </div>-->
+<!--                                                        <a href="javascript:void(0);">-->
+<!--                                                            <span class="d-block">Kenneth Hune</span>-->
+<!--                                                            <span class="fs-12 d-block fw-normal text-muted">nneth.une@gmail.com</span>-->
+<!--                                                        </a>-->
+<!--                                                    </div>-->
+<!--                                                </td>-->
+<!--                                                <td>-->
+<!--                                                    <span class="badge bg-gray-200 text-dark">Returning</span>-->
+<!--                                                </td>-->
+<!--                                                <td>11/06/2023 10:53</td>-->
+<!--                                                <td>-->
+<!--                                                    <span class="badge bg-soft-warning text-warning">Not Interested</span>-->
+<!--                                                </td>-->
+<!--                                                <td class="text-end">-->
+<!--                                                    <a href="javascript:void(0);"><i class="feather-more-vertical"></i></a>-->
+<!--                                                </td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>-->
+<!--                                                    <div class="d-flex align-items-center gap-3">-->
+<!--                                                        <div class="avatar-image">-->
+<!--                                                            <img src="./../assets/images/avatar/6.png" alt="" class="img-fluid" />-->
+<!--                                                        </div>-->
+<!--                                                        <a href="javascript:void(0);">-->
+<!--                                                            <span class="d-block">Valentine Maton</span>-->
+<!--                                                            <span class="fs-12 d-block fw-normal text-muted">alenine.aton@gmail.com</span>-->
+<!--                                                        </a>-->
+<!--                                                    </div>-->
+<!--                                                </td>-->
+<!--                                                <td>-->
+<!--                                                    <span class="badge bg-gray-200 text-dark">Sent</span>-->
+<!--                                                </td>-->
+<!--                                                <td>11/06/2023 10:53</td>-->
+<!--                                                <td>-->
+<!--                                                    <span class="badge bg-soft-success text-success">Completed</span>-->
+<!--                                                </td>-->
+<!--                                                <td class="text-end">-->
+<!--                                                    <a href="javascript:void(0);"><i class="feather-more-vertical"></i></a>-->
+<!--                                                </td>-->
+<!--                                            </tr>-->
+<!--                                        </tbody>-->
+<!--                                    </table>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="card-footer">-->
+<!--                                <ul class="list-unstyled d-flex align-items-center gap-2 mb-0 pagination-common-style">-->
+<!--                                    <li>-->
+<!--                                        <a href="javascript:void(0);"><i class="bi bi-arrow-left"></i></a>-->
+<!--                                    </li>-->
+<!--                                    <li><a href="javascript:void(0);" class="active">1</a></li>-->
+<!--                                    <li><a href="javascript:void(0);">2</a></li>-->
+<!--                                    <li>-->
+<!--                                        <a href="javascript:void(0);"><i class="bi bi-dot"></i></a>-->
+<!--                                    </li>-->
+<!--                                    <li><a href="javascript:void(0);">8</a></li>-->
+<!--                                    <li><a href="javascript:void(0);">9</a></li>-->
+<!--                                    <li>-->
+<!--                                        <a href="javascript:void(0);"><i class="bi bi-arrow-right"></i></a>-->
+<!--                                    </li>-->
+<!--                                </ul>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    &lt;!&ndash; [Latest Leads] end &ndash;&gt;-->
+<!--                    &lt;!&ndash;! BEGIN: [Team Progress] !&ndash;&gt;-->
+<!--                    <div class="col-xxl-4">-->
+<!--                        <div class="card stretch stretch-full">-->
+<!--                            <div class="card-header">-->
+<!--                                <h5 class="card-title">Team Progress</h5>-->
+<!--                                <div class="card-header-action">-->
+<!--                                    <div class="card-header-btn">-->
+<!--                                        <div data-bs-toggle="tooltip" title="Delete">-->
+<!--                                            <a href="javascript:void(0);" class="avatar-text avatar-xs bg-danger" data-bs-toggle="remove"> </a>-->
+<!--                                        </div>-->
+<!--                                        <div data-bs-toggle="tooltip" title="Refresh">-->
+<!--                                            <a href="javascript:void(0);" class="avatar-text avatar-xs bg-warning" data-bs-toggle="refresh"> </a>-->
+<!--                                        </div>-->
+<!--                                        <div data-bs-toggle="tooltip" title="Maximize/Minimize">-->
+<!--                                            <a href="javascript:void(0);" class="avatar-text avatar-xs bg-success" data-bs-toggle="expand"> </a>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="dropdown">-->
+<!--                                        <a href="javascript:void(0);" class="avatar-text avatar-sm" data-bs-toggle="dropdown" data-bs-offset="25, 25">-->
+<!--                                            <div data-bs-toggle="tooltip" title="Options">-->
+<!--                                                <i class="feather-more-vertical"></i>-->
+<!--                                            </div>-->
+<!--                                        </a>-->
+<!--                                        <div class="dropdown-menu dropdown-menu-end">-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-at-sign"></i>New</a>-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-calendar"></i>Event</a>-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-bell"></i>Snoozed</a>-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-trash-2"></i>Deleted</a>-->
+<!--                                            <div class="dropdown-divider"></div>-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-settings"></i>Settings</a>-->
+<!--                                            <a href="javascript:void(0);" class="dropdown-item"><i class="feather-life-buoy"></i>Tips & Tricks</a>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="card-body custom-card-action">-->
+<!--                                <div class="hstack justify-content-between border border-dashed rounded-3 p-3 mb-3">-->
+<!--                                    <div class="hstack gap-3">-->
+<!--                                        <div class="avatar-image">-->
+<!--                                            <img src="./../assets/images/avatar/1.png" alt="" class="img-fluid" />-->
+<!--                                        </div>-->
+<!--                                        <div>-->
+<!--                                            <a href="javascript:void(0);">Alexandra Della</a>-->
+<!--                                            <div class="fs-11 text-muted">Frontend Developer</div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="team-progress-1"></div>-->
+<!--                                </div>-->
+<!--                                <div class="hstack justify-content-between border border-dashed rounded-3 p-3 mb-3">-->
+<!--                                    <div class="hstack gap-3">-->
+<!--                                        <div class="avatar-image">-->
+<!--                                            <img src="./../assets/images/avatar/2.png" alt="" class="img-fluid" />-->
+<!--                                        </div>-->
+<!--                                        <div>-->
+<!--                                            <a href="javascript:void(0);">Archie Cantones</a>-->
+<!--                                            <div class="fs-11 text-muted">UI/UX Designer</div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="team-progress-2"></div>-->
+<!--                                </div>-->
+<!--                                <div class="hstack justify-content-between border border-dashed rounded-3 p-3 mb-3">-->
+<!--                                    <div class="hstack gap-3">-->
+<!--                                        <div class="avatar-image">-->
+<!--                                            <img src="./../assets/images/avatar/3.png" alt="" class="img-fluid" />-->
+<!--                                        </div>-->
+<!--                                        <div>-->
+<!--                                            <a href="javascript:void(0);">Malanie Hanvey</a>-->
+<!--                                            <div class="fs-11 text-muted">Backend Developer</div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="team-progress-3"></div>-->
+<!--                                </div>-->
+<!--                                <div class="hstack justify-content-between border border-dashed rounded-3 p-3 mb-2">-->
+<!--                                    <div class="hstack gap-3">-->
+<!--                                        <div class="avatar-image">-->
+<!--                                            <img src="./../assets/images/avatar/4.png" alt="" class="img-fluid" />-->
+<!--                                        </div>-->
+<!--                                        <div>-->
+<!--                                            <a href="javascript:void(0);">Kenneth Hune</a>-->
+<!--                                            <div class="fs-11 text-muted">Digital Marketer</div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="team-progress-4"></div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <a href="javascript:void(0);" class="card-footer fs-11 fw-bold text-uppercase text-center">Update 30 Min Ago</a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    &lt;!&ndash;! END: [Team Progress] !&ndash;&gt;-->
+                </div>
+            </div>
+            <!-- [ Main Content ] end -->
+        </div>
+        <!-- [ Footer ] start -->
+        <footer class="footer">
+            <p class="fs-11 text-muted fw-medium text-uppercase mb-0 copyright">
+                <span>Copyright ©</span>
+                <script>
+                    document.write(new Date().getFullYear());
+                </script>
+            </p>
+            <div class="d-flex align-items-center gap-4">
+                <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Help</a>
+                <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Terms</a>
+                <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Privacy</a>
+            </div>
+        </footer>
+        <!-- [ Footer ] end -->
+    </main>
+{% endblock %}
+
+{% block page_js %}
+    <script src="{% static 'assets/vendors/js/vendors.min.js' %}"></script>
+    <script src="{% static 'assets/vendors/js/daterangepicker.min.js' %}"></script>
+    <script src="{% static 'assets/vendors/js/apexcharts.min.js' %}"></script>
+    <script src="{% static 'assets/vendors/js/jquery.calendar.min.js' %}"></script>
+    <script src="{% static 'assets/vendors/js/circle-progress.min.js' %}"></script>
+    <!--! END: Vendors JS !-->
+    <!--! BEGIN: Apps Init  !-->
+    <script src="{% static 'assets/js/common-init.min.js' %}"></script>
+    <script src="{% static 'assets/js/dashboard-init.min.js' %}"></script>
+    <script src="{% static 'assets/js/reports-project-init.min.js' %}"></script>
+    <!--! END: Apps Init !-->
+    <!--! BEGIN: Theme Customizer  !-->
+    <script src="{% static 'assets/js/theme-customizer-init.min.js' %}"></script>
+    <!--! END: Theme Customizer !-->
+{% endblock %}
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,1353 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block special_style %}
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/vendors/css/datepicker.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/vendors/css/quill.min.css' %}">
+    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+    <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+{% endblock %}
+
+
+{% block content %}
+<!-- [ Main Content ] start -->
+<main class="nxl-container apps-container apps-tasks">
+    <div class="nxl-content without-header nxl-full-content">
+        <div class="main-content d-flex">
+            {% if 'workers' in request.path %}
+                {% include 'tasks/tasks-workers-sidebar.html' %}
+            {% else %}
+                {% include 'tasks/tasks-filters-sidebar.html' %}
+            {% endif %}
+            <!-- [ Main Area  ] start -->
+            <div class="content-area" data-scrollbar-target="#psScrollbarInit">
+                <div class="content-area-header sticky-top">
+                    <div class="page-header-left d-flex align-items-center gap-2">
+                        <a href="javascript:void(0);" class="app-sidebar-open-trigger me-2">
+                            <i class="feather-align-left fs-20"></i>
+                        </a>
+<!--                        <div class="dropdown">-->
+<!--                            <a href="javascript:void(0)" class="btn btn-light-brand dropdown-toggle"-->
+<!--                               data-bs-toggle="dropdown" data-bs-offset="0,16">-->
+<!--                                <i class="feather-check-circle me-2"></i>-->
+<!--                                <span>My Tasks</span>-->
+<!--                            </a>-->
+<!--                            <div class="dropdown-menu dropdown-menu-end">-->
+<!--                                <a class="dropdown-item" href="javascript:void(0)">-->
+<!--                                    <i class="feather-hash"></i>-->
+<!--                                    <span>All Tasks</span>-->
+<!--                                </a>-->
+<!--                                <a class="dropdown-item active" href="javascript:void(0)">-->
+<!--                                    <i class="feather-check-circle"></i>-->
+<!--                                    <span>My Tasks</span>-->
+<!--                                </a>-->
+<!--                                <a class="dropdown-item" href="javascript:void(0)">-->
+<!--                                    <i class="feather-airplay"></i>-->
+<!--                                    <span>Overviews</span>-->
+<!--                                </a>-->
+<!--                                <a class="dropdown-item" href="javascript:void(0)">-->
+<!--                                    <i class="feather-clock"></i>-->
+<!--                                    <span>Pending Tasks</span>-->
+<!--                                </a>-->
+<!--                                <a class="dropdown-item" href="javascript:void(0)">-->
+<!--                                    <i class="feather-activity"></i>-->
+<!--                                    <span>InProgress Tasks</span>-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="dropdown">-->
+<!--                            <a href="javascript:void(0)" class="avatar-text avatar-md" data-bs-toggle="dropdown"-->
+<!--                               data-bs-offset="0,22">-->
+<!--                                <i class="feather-eye"></i>-->
+<!--                            </a>-->
+<!--                            <ul class="dropdown-menu">-->
+<!--                                <li>-->
+<!--                                    <a class="dropdown-item" href="javascript:void(0)">-->
+<!--                                        <i class="feather-eye me-3"></i>-->
+<!--                                        <span>Read</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <a class="dropdown-item" href="javascript:void(0)">-->
+<!--                                        <i class="feather-eye-off me-3"></i>-->
+<!--                                        <span>Unread</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <a class="dropdown-item" href="javascript:void(0)">-->
+<!--                                        <i class="feather-star me-3"></i>-->
+<!--                                        <span>Starred</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <a class="dropdown-item" href="javascript:void(0)">-->
+<!--                                        <i class="feather-shield-off me-3"></i>-->
+<!--                                        <span>Unstarred</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                                <li class="dropdown-divider"></li>-->
+<!--                                <li>-->
+<!--                                    <a class="dropdown-item" href="javascript:void(0)">-->
+<!--                                        <i class="feather-clock me-3"></i>-->
+<!--                                        <span>Snooze</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <a class="dropdown-item" href="javascript:void(0)">-->
+<!--                                        <i class="feather-check-circle me-3"></i>-->
+<!--                                        <span>Add Tasks</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                                <li class="dropdown-divider"></li>-->
+<!--                                <li>-->
+<!--                                    <a class="dropdown-item" href="javascript:void(0)">-->
+<!--                                        <i class="feather-archive me-3"></i>-->
+<!--                                        <span>Archive</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <a class="dropdown-item" href="javascript:void(0)">-->
+<!--                                        <i class="feather-alert-octagon me-3"></i>-->
+<!--                                        <span>Report Spam</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                                <li class="dropdown-divider"></li>-->
+<!--                                <li>-->
+<!--                                    <a class="dropdown-item" href="javascript:void(0)">-->
+<!--                                        <i class="feather-trash-2 me-3"></i>-->
+<!--                                        <span>Delete</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                        <div class="dropdown">-->
+<!--                            <a href="javascript:void(0)" class="d-flex" data-bs-toggle="dropdown" data-bs-offset="0,22"-->
+<!--                               data-bs-auto-close="outside" aria-expanded="false">-->
+<!--                                <div class="avatar-text avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover"-->
+<!--                                     title="Tags">-->
+<!--                                    <i class="feather-tag"></i>-->
+<!--                                </div>-->
+<!--                            </a>-->
+<!--                            <div class="dropdown-menu">-->
+<!--                                <div class="dropdown-item">-->
+<!--                                    <div class="custom-control custom-checkbox">-->
+<!--                                        <input type="checkbox" class="custom-control-input" id="Office"-->
+<!--                                               checked="checked">-->
+<!--                                        <label class="custom-control-label c-pointer" for="Office">Office</label>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="dropdown-item">-->
+<!--                                    <div class="custom-control custom-checkbox">-->
+<!--                                        <input type="checkbox" class="custom-control-input" id="Family">-->
+<!--                                        <label class="custom-control-label c-pointer" for="Family">Family</label>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="dropdown-item">-->
+<!--                                    <div class="custom-control custom-checkbox">-->
+<!--                                        <input type="checkbox" class="custom-control-input" id="Friend"-->
+<!--                                               checked="checked">-->
+<!--                                        <label class="custom-control-label c-pointer" for="Friend">Friend</label>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="dropdown-item">-->
+<!--                                    <div class="custom-control custom-checkbox">-->
+<!--                                        <input type="checkbox" class="custom-control-input" id="Marketplace">-->
+<!--                                        <label class="custom-control-label c-pointer" for="Marketplace">-->
+<!--                                            Marketplace </label>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="dropdown-item">-->
+<!--                                    <div class="custom-control custom-checkbox">-->
+<!--                                        <input type="checkbox" class="custom-control-input" id="Development">-->
+<!--                                        <label class="custom-control-label c-pointer" for="Development">-->
+<!--                                            Development </label>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="dropdown-divider"></div>-->
+<!--                                <a href="javascript:void(0);" class="dropdown-item">-->
+<!--                                    <i class="feather-plus me-3"></i>-->
+<!--                                    <span>Create Tag</span>-->
+<!--                                </a>-->
+<!--                                <a href="javascript:void(0);" class="dropdown-item">-->
+<!--                                    <i class="feather-tag me-3"></i>-->
+<!--                                    <span>Manages Tag</span>-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="dropdown">-->
+<!--                            <a href="javascript:void(0)" class="d-flex" data-bs-toggle="dropdown" data-bs-offset="0,22"-->
+<!--                               data-bs-auto-close="outside" aria-expanded="false">-->
+<!--                                <div class="avatar-text avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover"-->
+<!--                                     title="Labels">-->
+<!--                                    <i class="feather-folder-plus"></i>-->
+<!--                                </div>-->
+<!--                            </a>-->
+<!--                            <div class="dropdown-menu">-->
+<!--                                <div class="dropdown-item">-->
+<!--                                    <div class="custom-control custom-checkbox">-->
+<!--                                        <input type="checkbox" class="custom-control-input" id="Updates">-->
+<!--                                        <label class="custom-control-label c-pointer" for="Updates">Updates</label>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="dropdown-item">-->
+<!--                                    <div class="custom-control custom-checkbox">-->
+<!--                                        <input type="checkbox" class="custom-control-input" id="Socials">-->
+<!--                                        <label class="custom-control-label c-pointer" for="Socials">Socials</label>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="dropdown-item">-->
+<!--                                    <div class="custom-control custom-checkbox">-->
+<!--                                        <input type="checkbox" class="custom-control-input" id="Primary"-->
+<!--                                               checked="checked">-->
+<!--                                        <label class="custom-control-label c-pointer" for="Primary">Primary</label>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="dropdown-item">-->
+<!--                                    <div class="custom-control custom-checkbox">-->
+<!--                                        <input type="checkbox" class="custom-control-input" id="Forums">-->
+<!--                                        <label class="custom-control-label c-pointer" for="Forums">Forums</label>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="dropdown-item">-->
+<!--                                    <div class="custom-control custom-checkbox">-->
+<!--                                        <input type="checkbox" class="custom-control-input" id="Promotions"-->
+<!--                                               checked="checked">-->
+<!--                                        <label class="custom-control-label c-pointer" for="Promotions">-->
+<!--                                            Promotions </label>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="dropdown-divider"></div>-->
+<!--                                <a href="javascript:void(0);" class="dropdown-item">-->
+<!--                                    <i class="feather-plus me-3"></i>-->
+<!--                                    <span>Create Label</span>-->
+<!--                                </a>-->
+<!--                                <a href="javascript:void(0);" class="dropdown-item">-->
+<!--                                    <i class="feather-folder-plus me-3"></i>-->
+<!--                                    <span>Manages Label</span>-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                    </div>
+                    <div class="page-header-right ms-auto">
+                        <div class="hstack gap-2">
+                            <div class="hstack">
+                                <a href="javascript:void(0)" class="search-form-open-toggle">
+                                    <div class="avatar-text avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                         title="Search">
+                                        <i class="feather-search"></i>
+                                    </div>
+                                </a>
+                                <form class="search-form" style="display: none">
+                                    <div class="search-form-inner">
+                                        <a href="javascript:void(0)" class="search-form-close-toggle">
+                                            <div class="avatar-text avatar-md" data-bs-toggle="tooltip"
+                                                 data-bs-trigger="hover" title="Search Close">
+                                                <i class="feather-arrow-left"></i>
+                                            </div>
+                                        </a>
+                                        <input type="search" class="py-3 px-0 border-0 w-100" id="tasksSearch"
+                                               placeholder="Search...">
+                                    </div>
+                                </form>
+                            </div>
+<!--                            <a href="javascript:void(0)" class="d-none d-sm-flex">-->
+<!--                                <div class="avatar-text avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover"-->
+<!--                                     title="Newest">-->
+<!--                                    <i class="feather-chevron-left"></i>-->
+<!--                                </div>-->
+<!--                            </a>-->
+<!--                            <a href="javascript:void(0)" class="d-none d-sm-flex">-->
+<!--                                <div class="avatar-text avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover"-->
+<!--                                     title="Oldest">-->
+<!--                                    <i class="feather-chevron-right"></i>-->
+<!--                                </div>-->
+<!--                            </a>-->
+<!--                            <div class="dropdown d-none d-sm-flex">-->
+<!--                                <a href="javascript:void(0)"-->
+<!--                                   class="btn btn-light-brand btn-sm rounded-pill dropdown-toggle"-->
+<!--                                   data-bs-toggle="dropdown" data-bs-offset="0,23">Newest</a>-->
+<!--                                <ul class="dropdown-menu dropdown-menu-end">-->
+<!--                                    <li><a class="dropdown-item" href="javascript:void(0)">Title</a></li>-->
+<!--                                    <li><a class="dropdown-item" href="javascript:void(0)">Priority</a></li>-->
+<!--                                    <li><a class="dropdown-item" href="javascript:void(0)">Category</a></li>-->
+<!--                                    <li><a class="dropdown-item" href="javascript:void(0)">Time & Date</a></li>-->
+<!--                                    <li class="dropdown-divider"></li>-->
+<!--                                    <li><a class="dropdown-item active" href="javascript:void(0)">Newest</a></li>-->
+<!--                                    <li><a class="dropdown-item" href="javascript:void(0)">Oldest</a></li>-->
+<!--                                    <li class="dropdown-divider"></li>-->
+<!--                                    <li><a class="dropdown-item" href="javascript:void(0)">Ascending</a></li>-->
+<!--                                    <li><a class="dropdown-item" href="javascript:void(0)">Descending</a></li>-->
+<!--                                </ul>-->
+<!--                            </div>-->
+                            <div class="dropdown d-none d-sm-flex">
+                                <a href="javascript:void(0)" class="d-flex" data-bs-toggle="dropdown"
+                                   data-bs-offset="0,22" data-bs-auto-close="outside">
+                                    <div class="avatar-text avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                         title="More Options">
+                                        <i class="feather-more-vertical"></i>
+                                    </div>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <i class="feather-plus me-3"></i>
+                                        <span>Qo'shish</span>
+                                    </a>
+<!--                                    <a href="javascript:void(0);" class="dropdown-item">-->
+<!--                                        <i class="feather-user-plus me-3"></i>-->
+<!--                                        <span>Add to Contact</span>-->
+<!--                                    </a>-->
+<!--                                    <a href="javascript:void(0);" class="dropdown-item">-->
+<!--                                        <i class="feather-eye-off me-3"></i>-->
+<!--                                        <span>Make as Unread</span>-->
+<!--                                    </a>-->
+<!--                                    <a href="javascript:void(0);" class="dropdown-item">-->
+<!--                                        <i class="feather-sliders me-3"></i>-->
+<!--                                        <span>Filter Messages</span>-->
+<!--                                    </a>-->
+<!--                                    <a href="javascript:void(0);" class="dropdown-item">-->
+<!--                                        <i class="feather-archive me-3"></i>-->
+<!--                                        <span>Make as Archive</span>-->
+<!--                                    </a>-->
+<!--                                    <div class="dropdown-divider"></div>-->
+<!--                                    <a href="javascript:void(0);" class="dropdown-item">-->
+<!--                                        <i class="feather-slash me-3"></i>-->
+<!--                                        <span>Report Spam</span>-->
+<!--                                    </a>-->
+<!--                                    <a href="javascript:void(0);" class="dropdown-item">-->
+<!--                                        <i class="feather-sliders me-3"></i>-->
+<!--                                        <span>Report phishing</span>-->
+<!--                                    </a>-->
+<!--                                    <a href="javascript:void(0);" class="dropdown-item">-->
+<!--                                        <i class="feather-download me-3"></i>-->
+<!--                                        <span>Download Messages</span>-->
+<!--                                    </a>-->
+<!--                                    <div class="dropdown-divider"></div>-->
+<!--                                    <a href="javascript:void(0);" class="dropdown-item">-->
+<!--                                        <i class="feather-bell-off me-3"></i>-->
+<!--                                        <span>Mute Conversion</span>-->
+<!--                                    </a>-->
+<!--                                    <a href="javascript:void(0);" class="dropdown-item">-->
+<!--                                        <i class="feather-slash me-3"></i>-->
+<!--                                        <span>Block Conversion</span>-->
+<!--                                    </a>-->
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <i class="feather-trash-2 me-3"></i>
+                                        <span>Arxiv</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-area-body" style="min-height: 93%;">
+                    {% if request.user.profile.role == "assigner" %}
+                    <div class="card stretch stretch-full">
+                        <a href="javascript:void(0);" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#addNewTasks">
+                            <i class="feather-plus me-2"></i>
+                            <span>Qo'shish</span>
+                        </a>
+                    </div>
+                    {% endif %}
+                    {% for date_label, tasks in grouped_tasks.items %}
+                    <div class="card stretch stretch-full">
+                        <a href="javascript:void(0);" class="card-header" data-bs-toggle="collapse"
+                           data-bs-target="#tasks_collapse_{{forloop.counter}}">
+                            <h5 class="mb-0">{{ date_label }}</h5>
+                        </a>
+                        <div class="card-body collapse show" id="tasks_collapse_{{forloop.counter}}">
+                            <ul class="list-unstyled mb-0">
+                                {% for task in tasks %}
+                                <li class="single-task-list p-3 mb-3 border border-dashed rounded-3 {% if task.status == 'approved' %} task-completed {% endif %}">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center gap-3 me-3">
+                                            {% if request.user.profile.role == "assigner" %}
+                                            <div class="custom-control custom-checkbox me-2">
+                                                <input type="checkbox" class="custom-control-input complete-checkbox" disabled
+                                                       id="customCheckTask{{task.id}}" data-checked-action="task-action"
+                                                       data-id="{{ task.id }}" {% if task.status in 'approved submitted' %} checked {% endif %}>
+                                                <label class="custom-control-label c-pointer"
+                                                       for="customCheckTask{{task.id}}"></label>
+                                            </div>
+                                            {% endif %}
+                                            <div class="d-flex align-items-center gap-3">
+                                                <a href="javascript:void(0);" class="single-task-list-link"
+                                                   data-bs-toggle="offcanvas" data-bs-target="#tasksDetailsOffcanvas{{task.id}}">
+                                                    <div class="fs-13 fw-bold text-truncate-1-line">{{ task.title }}<span class="ms-2 badge bg-soft-danger text-danger">{{ task.get_degree_display }}</span>
+                                                    </div>
+                                                    <div class="fs-12 fw-normal text-muted text-truncate-1-line">{{ task.description }}
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-shrink-0 align-items-center gap-3">
+                                            <div class="badge bg-soft-primary text-primary d-md-inline-block d-none">
+                                                {{ task.deadline|date:'H:i' }}
+                                            </div>
+                                            <div class="d-md-inline-block d-none me-3"></div>
+                                            <div class="avatar-image avatar-md d-sm-inline-block d-none">
+                                                <img src="{{ task.author.photo_url }}" alt="user"
+                                                     class="img-fluid">
+                                            </div>
+                                            <div class="dropdown">
+                                                <a href="javascript:void(0);" class="avatar-text avatar-md"
+                                                   data-bs-toggle="dropdown">
+                                                    <i class="feather-more-vertical"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-end">
+                                                    <a class="dropdown-item view-task" href="javascript:void(0);" data-bs-toggle="offcanvas" data-bs-target="#tasksDetailsOffcanvas{{task.id}}">Ko'rish</a>
+                                                    {% if request.user.profile.role == 'assigner' %}
+                                                        {% if task.status == 'submitted' %}
+                                                            <a class="dropdown-item delete-task" href="{% url 'tasks:update_status' task.id %}?status=approved">Nazoratdan yechish</a>
+                                                        {% else %}
+                                                            <a class="dropdown-item edit-task" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editTask" data-id="{{ task.id }}">O'zgartirish</a>
+                                                        {% endif %}
+                                                        <a class="dropdown-item delete-task" href="{% url 'tasks:delete_task' task.id %}">O'chirish</a>
+                                                    {% elif task.status != 'submitted' %}
+                                                        <a class="dropdown-item edit-task" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#answeringToTask" data-id="{{ task.id }}" onclick="updatePondServer({{ task.id }})">Javob berish</a>
+                                                        {% if not task.deadline_extension_requests.all %}
+                                                            <a class="dropdown-item edit-task" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deadlineExtensionRequest" data-id="{{ task.id }}">Muhlat so'rash</a>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                                <!--                        <li class="single-task-list p-3 mb-3 border border-dashed rounded-3">-->
+                                <!--                            <div class="d-flex align-items-center justify-content-between">-->
+                                <!--                                <div class="d-flex align-items-center gap-3 me-3">-->
+                                <!--                                    <div class="custom-control custom-checkbox me-2">-->
+                                <!--                                        <input type="checkbox" class="custom-control-input" id="customCheckTask2" data-checked-action="task-action">-->
+                                <!--                                        <label class="custom-control-label c-pointer" for="customCheckTask2"></label>-->
+                                <!--                                    </div>-->
+                                <!--                                    <div class="d-flex align-items-center gap-3">-->
+                                <!--                                        <div class="lh-base"><i class="feather-star"></i></div>-->
+                                <!--                                        <a href="javascript:void(0);" class="single-task-list-link" data-bs-toggle="offcanvas" data-bs-target="#tasksDetailsOffcanvas">-->
+                                <!--                                            <div class="fs-13 fw-bold text-truncate-1-line"> <span class="ms-2 badge bg-soft-primary text-primary">Normal</span></div>-->
+                                <!--                                            <div class="fs-12 fw-normal text-muted text-truncate-1-line">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</div>-->
+                                <!--                                        </a>-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
+                                <!--                                <div class="d-flex flex-shrink-0 align-items-center gap-3">-->
+                                <!--                                    <div class="badge bg-soft-success text-success d-md-inline-block d-none">Conferences</div>-->
+                                <!--                                    <div class="d-md-inline-block d-none me-3">22 Nov, 2023</div>-->
+                                <!--                                    <div class="avatar-image avatar-md d-sm-inline-block d-none">-->
+                                <!--                                        <img src="{% static 'assets/images/avatar/2.png' %}" alt="user" class="img-fluid">-->
+                                <!--                                    </div>-->
+                                <!--                                    <div class="dropdown">-->
+                                <!--                                        <a href="javascript:void(0);" class="avatar-text avatar-md" data-bs-toggle="dropdown">-->
+                                <!--                                            <i class="feather-more-vertical"></i>-->
+                                <!--                                        </a>-->
+                                <!--                                        <div class="dropdown-menu dropdown-menu-end">-->
+                                <!--                                            <a class="dropdown-item edit-task" href="#">Edit Task</a>-->
+                                <!--                                            <a class="dropdown-item view-task" href="#">View Task</a>-->
+                                <!--                                            <a class="dropdown-item view-task" href="#">View Task</a>-->
+                                <!--                                            <a class="dropdown-item delete-task" href="#">Delete Task</a>-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
+                                <!--                            </div>-->
+                                <!--                        </li>-->
+                                <!--                        <li class="single-task-list p-3 mb-3 border border-dashed rounded-3">-->
+                                <!--                            <div class="d-flex align-items-center justify-content-between">-->
+                                <!--                                <div class="d-flex align-items-center gap-3 me-3">-->
+                                <!--                                    <div class="custom-control custom-checkbox me-2">-->
+                                <!--                                        <input type="checkbox" class="custom-control-input" id="customCheckTask3" data-checked-action="task-action">-->
+                                <!--                                        <label class="custom-control-label c-pointer" for="customCheckTask3"></label>-->
+                                <!--                                    </div>-->
+                                <!--                                    <div class="d-flex align-items-center gap-3">-->
+                                <!--                                        <div class="lh-base"><i class="feather-star"></i></div>-->
+                                <!--                                        <a href="javascript:void(0);" class="single-task-list-link" data-bs-toggle="offcanvas" data-bs-target="#tasksDetailsOffcanvas">-->
+                                <!--                                            <div class="fs-13 fw-bold text-truncate-1-line">Target market trend analysis on the go <span class="ms-2 badge bg-soft-warning text-warning">Medium</span></div>-->
+                                <!--                                            <div class="fs-12 fw-normal text-muted text-truncate-1-line">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</div>-->
+                                <!--                                        </a>-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
+                                <!--                                <div class="d-flex flex-shrink-0 align-items-center gap-3">-->
+                                <!--                                    <div class="badge bg-soft-teal text-teal d-md-inline-block d-none">Meetings</div>-->
+                                <!--                                    <div class="d-md-inline-block d-none me-3">23 Nov, 2023</div>-->
+                                <!--                                    <div class="avatar-image avatar-md d-sm-inline-block d-none">-->
+                                <!--                                        <img src="{% static 'assets/images/avatar/3.png' %}" alt="user" class="img-fluid">-->
+                                <!--                                    </div>-->
+                                <!--                                    <div class="dropdown">-->
+                                <!--                                        <a href="javascript:void(0);" class="avatar-text avatar-md" data-bs-toggle="dropdown">-->
+                                <!--                                            <i class="feather-more-vertical"></i>-->
+                                <!--                                        </a>-->
+                                <!--                                        <div class="dropdown-menu dropdown-menu-end">-->
+                                <!--                                            <a class="dropdown-item edit-task" href="#">Edit Task</a>-->
+                                <!--                                            <a class="dropdown-item view-task" href="#">View Task</a>-->
+                                <!--                                            <a class="dropdown-item delete-task" href="#">Delete Task</a>-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
+                                <!--                            </div>-->
+                                <!--                        </li>-->
+                                <!--                        <li class="single-task-list p-3 mb-3 border border-dashed rounded-3">-->
+                                <!--                            <div class="d-flex align-items-center justify-content-between">-->
+                                <!--                                <div class="d-flex align-items-center gap-3 me-3">-->
+                                <!--                                    <div class="custom-control custom-checkbox me-2">-->
+                                <!--                                        <input type="checkbox" class="custom-control-input" id="customCheckTask4" data-checked-action="task-action">-->
+                                <!--                                        <label class="custom-control-label c-pointer" for="customCheckTask4"></label>-->
+                                <!--                                    </div>-->
+                                <!--                                    <div class="d-flex align-items-center gap-3">-->
+                                <!--                                        <div class="lh-base"><i class="feather-star"></i></div>-->
+                                <!--                                        <a href="javascript:void(0);" class="single-task-list-link" data-bs-toggle="offcanvas" data-bs-target="#tasksDetailsOffcanvas">-->
+                                <!--                                            <div class="fs-13 fw-bold text-truncate-1-line">Send revised proposal to Mr. Dow Jones <span class="ms-2 badge bg-soft-success text-success">Low</span></div>-->
+                                <!--                                            <div class="fs-12 fw-normal text-muted text-truncate-1-line">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</div>-->
+                                <!--                                        </a>-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
+                                <!--                                <div class="d-flex flex-shrink-0 align-items-center gap-3">-->
+                                <!--                                    <div class="badge bg-soft-primary text-primary d-md-inline-block d-none">Calls</div>-->
+                                <!--                                    <div class="d-md-inline-block d-none me-3">28 Nov, 2023</div>-->
+                                <!--                                    <div class="avatar-image avatar-md d-sm-inline-block d-none">-->
+                                <!--                                        <img src="{% static 'assets/images/avatar/4.png' %}" alt="user" class="img-fluid">-->
+                                <!--                                    </div>-->
+                                <!--                                    <div class="dropdown">-->
+                                <!--                                        <a href="javascript:void(0);" class="avatar-text avatar-md" data-bs-toggle="dropdown">-->
+                                <!--                                            <i class="feather-more-vertical"></i>-->
+                                <!--                                        </a>-->
+                                <!--                                        <div class="dropdown-menu dropdown-menu-end">-->
+                                <!--                                            <a class="dropdown-item edit-task" href="#">Edit Task</a>-->
+                                <!--                                            <a class="dropdown-item view-task" href="#">View Task</a>-->
+                                <!--                                            <a class="dropdown-item delete-task" href="#">Delete Task</a>-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
+                                <!--                            </div>-->
+                                <!--                        </li>-->
+                                <!--                        <li class="single-task-list p-3 mb-0 border border-dashed rounded-3">-->
+                                <!--                            <div class="d-flex align-items-center justify-content-between">-->
+                                <!--                                <div class="d-flex align-items-center gap-3 me-3">-->
+                                <!--                                    <div class="custom-control custom-checkbox me-2">-->
+                                <!--                                        <input type="checkbox" class="custom-control-input" id="customCheckTask5" data-checked-action="task-action">-->
+                                <!--                                        <label class="custom-control-label c-pointer" for="customCheckTask5"></label>-->
+                                <!--                                    </div>-->
+                                <!--                                    <div class="d-flex align-items-center gap-3">-->
+                                <!--                                        <div class="lh-base"><i class="feather-star"></i></div>-->
+                                <!--                                        <a href="javascript:void(0);" class="single-task-list-link" data-bs-toggle="offcanvas" data-bs-target="#tasksDetailsOffcanvas">-->
+                                <!--                                            <div class="fs-13 fw-bold text-truncate-1-line">Set up first call for demo <span class="ms-2 badge bg-soft-danger text-danger">Urgent</span></div>-->
+                                <!--                                            <div class="fs-12 fw-normal text-muted text-truncate-1-line">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</div>-->
+                                <!--                                        </a>-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
+                                <!--                                <div class="d-flex flex-shrink-0 align-items-center gap-3">-->
+                                <!--                                    <div class="badge bg-soft-warning text-warning d-md-inline-block d-none">Project</div>-->
+                                <!--                                    <div class="d-md-inline-block d-none me-3">30 Nov, 2023</div>-->
+                                <!--                                    <div class="avatar-image avatar-md d-sm-inline-block d-none">-->
+                                <!--                                        <img src="{% static 'assets/images/avatar/5.png' %}" alt="user" class="img-fluid">-->
+                                <!--                                    </div>-->
+                                <!--                                    <div class="dropdown">-->
+                                <!--                                        <a href="javascript:void(0);" class="avatar-text avatar-md" data-bs-toggle="dropdown">-->
+                                <!--                                            <i class="feather-more-vertical"></i>-->
+                                <!--                                        </a>-->
+                                <!--                                        <div class="dropdown-menu dropdown-menu-end">-->
+                                <!--                                            <a class="dropdown-item edit-task" href="#">Edit Task</a>-->
+                                <!--                                            <a class="dropdown-item view-task" href="#">View Task</a>-->
+                                <!--                                            <a class="dropdown-item delete-task" href="#">Delete Task</a>-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
+                                <!--                            </div>-->
+                                <!--                        </li>-->
+                            </ul>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-- [ Footer ] start -->
+                <footer class="footer">
+                    <p class="fs-11 text-muted fw-medium text-uppercase mb-0 copyright">
+                        <span>Rail Task ©</span>
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script>
+                    </p>
+                    <div class="d-flex align-items-center gap-4">
+                        <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Yordam</a>
+                        <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Aloqa</a>
+                        <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Murojaat</a>
+                    </div>
+                </footer>
+                <!-- [ Footer ] end -->
+            </div>
+            <!-- [ Content Area ] end -->
+        </div>
+    </div>
+</main>
+<!-- [ Main Content ] end -->
+
+
+<!--! [Start] Add New task Modal !-->
+<div class="modal fade" id="addNewTasks" tabindex="-1">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Yangi topshiriq yaratish</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{% url 'tasks:create_task' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-4">
+                        <label for="taskName" class="form-label">Topshiriq nomi</label>
+                        <input type="text" id="taskName" name="title" class="form-control" placeholder="Topshiriq nomini kiriting" required>
+    <!--                    <small class="text-muted">Tasks name for your todo</small>-->
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">To'liq matni</label>
+                        <textarea rows="5" class="form-control" maxlength="200" name="description" placeholder="Topshiriqning batafsil matni"></textarea>
+                        <small class="text-muted">Maksimal 200 ta belgi</small>
+                    </div>
+                    <div class="form-group mb-4">
+                        <label class="form-label">Ijrochilar:</label>
+                        <select class="form-select form-control" name="performers" data-select2-selector="user" multiple required>
+                            {% for performer in performers %}
+                            <option value="{{ performer.id }}" data-user="{{ performer.id }}" data-photourl="{{ performer.photo_url|default:'https://img.freepik.com/premium-vector/user-circle-with-blue-gradient-circle_78370-4727.jpg' }}">{{ performer.full_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div id="taskDateRangeAdd" class="mb-4">
+                        <label class="form-label">Topshiriq muddati</label>
+                        <div class="input-group date input-daterange">
+                            <input type="datetime-local" class="form-control" placeholder="gacha" name="deadline" autocomplete="off" required>
+                        </div>
+                    </div>
+    <!--                <div class="form-group mb-4">-->
+    <!--                    <label class="form-label">Status:</label>-->
+    <!--                    <select class="form-control" data-select2-selector="status">-->
+    <!--                        <option value="primary" data-bg="bg-primary" selected>Inprogress</option>-->
+    <!--                        <option value="secondary" data-bg="bg-secondary">Pending</option>-->
+    <!--                        <option value="success" data-bg="bg-success">Completed</option>-->
+    <!--                        <option value="danger" data-bg="bg-danger">Rejected</option>-->
+    <!--                        <option value="warning" data-bg="bg-warning">Upcoming</option>-->
+    <!--                    </select>-->
+    <!--                </div>-->
+                    <div class="form-group mb-4">
+                        <label class="form-label">Muhimlik darajasi</label>
+                        <select class="form-select form-control" name="degree" data-select2-selector="priority" required>
+                            <option value="info" data-bg="bg-primary">Ma'lumot uchun</option>
+                            <option value="medium" data-bg="bg-teal">Ahamiyatli</option>
+                            <option value="important" data-bg="bg-success" selected >Muhim</option>
+                            <option value="very_important" data-bg="bg-warning">Juda muhim</option>
+                            <option value="urgent" data-bg="bg-danger">Tezkor</option>
+                        </select>
+                    </div>
+    <!--                <div class="form-group mb-0">-->
+    <!--                    <label class="form-label">Tags:</label>-->
+    <!--                    <select class="form-select form-control" data-select2-selector="tag" multiple>-->
+    <!--                        <option value="primary" data-bg="bg-primary">Team</option>-->
+    <!--                        <option value="teal" data-bg="bg-teal">Primary</option>-->
+    <!--                        <option value="success" data-bg="bg-success">Updates</option>-->
+    <!--                        <option value="warning" data-bg="bg-warning" selected>Personal</option>-->
+    <!--                        <option value="danger" data-bg="bg-danger">Promotions</option>-->
+    <!--                        <option value="indigo" data-bg="bg-indigo">Customs</option>-->
+    <!--                    </select>-->
+    <!--                </div>-->
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-danger" data-bs-dismiss="modal">Bekor qilish</button>
+                    <button type="button" class="btn btn-primary">Tasdiqlash</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--! [End] Add New task Modal !-->
+
+<!--! [Start] Edit task Modal !-->
+<div class="modal fade" id="editTask" tabindex="-1">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Yangi topshiriq yaratish</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-4">
+                        <label for="taskName" class="form-label">Topshiriq nomi</label>
+                        <input type="text" id="editTaskName" name="title" class="form-control" placeholder="Topshiriq nomini kiriting" required>
+    <!--                    <small class="text-muted">Tasks name for your todo</small>-->
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">To'liq matni</label>
+                        <textarea id="editTaskDescription" rows="5"  class="form-control" maxlength="200" name="description" placeholder="Topshiriqning batafsil matni"></textarea>
+                        <small class="text-muted">Maksimal 200 ta belgi</small>
+                    </div>
+                    <div class="form-group mb-4">
+                        <label class="form-label">Ijrochilar:</label>
+                        <select class="form-select form-control" name="performers" data-select2-selector="user" multiple required id="editTaskPerformers">
+                            {% for performer in performers %}
+                            <option value="{{ performer.id }}" data-user="{{ performer.id }}">{{ performer.full_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div id="EditTaskDateRangeAdd" class="mb-4">
+                        <label class="form-label">Topshiriq muddati</label>
+                        <div class="input-group date input-daterange">
+                            <input id="editTaskDeadline" type="datetime-local" class="form-control" placeholder="gacha" name="deadline" autocomplete="off" required>
+                        </div>
+                    </div>
+    <!--                <div class="form-group mb-4">-->
+    <!--                    <label class="form-label">Status:</label>-->
+    <!--                    <select class="form-control" data-select2-selector="status">-->
+    <!--                        <option value="primary" data-bg="bg-primary" selected>Inprogress</option>-->
+    <!--                        <option value="secondary" data-bg="bg-secondary">Pending</option>-->
+    <!--                        <option value="success" data-bg="bg-success">Completed</option>-->
+    <!--                        <option value="danger" data-bg="bg-danger">Rejected</option>-->
+    <!--                        <option value="warning" data-bg="bg-warning">Upcoming</option>-->
+    <!--                    </select>-->
+    <!--                </div>-->
+                    <div class="form-group mb-4">
+                        <label class="form-label">Muhimlik darajasi</label>
+                        <select class="form-select form-control" name="degree" data-select2-selector="priority" required>
+                            <option value="info" data-bg="bg-primary">Ma'lumot uchun</option>
+                            <option value="medium" data-bg="bg-teal">Ahamiyatli</option>
+                            <option value="important" data-bg="bg-success">Muhim</option>
+                            <option value="very_important" data-bg="bg-warning" selected>Juda muhim</option>
+                            <option value="urgent" data-bg="bg-danger">Tezkor</option>
+                        </select>
+                    </div>
+    <!--                <div class="form-group mb-0">-->
+    <!--                    <label class="form-label">Tags:</label>-->
+    <!--                    <select class="form-select form-control" data-select2-selector="tag" multiple>-->
+    <!--                        <option value="primary" data-bg="bg-primary">Team</option>-->
+    <!--                        <option value="teal" data-bg="bg-teal">Primary</option>-->
+    <!--                        <option value="success" data-bg="bg-success">Updates</option>-->
+    <!--                        <option value="warning" data-bg="bg-warning" selected>Personal</option>-->
+    <!--                        <option value="danger" data-bg="bg-danger">Promotions</option>-->
+    <!--                        <option value="indigo" data-bg="bg-indigo">Customs</option>-->
+    <!--                    </select>-->
+    <!--                </div>-->
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-danger" data-bs-dismiss="modal">Bekor qilish</button>
+                    <button type="submit" class="btn btn-primary">Tasdiqlash</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--! [End] Edit task Modal !-->
+
+<!--! ================================================================ !-->
+<!--! [Start] Tasks Details Offcanvas !-->
+<!--! ================================================================ !-->
+{% for date_label, tasks in grouped_tasks.items %}
+{% for task in tasks %}
+<div class="offcanvas offcanvas-end w-100" tabindex="-1" id="tasksDetailsOffcanvas{{task.id}}">
+    <div class="offcanvas-header border-bottom" style="padding-top: 20px; padding-bottom: 20px">
+        <div class="d-flex align-items-center">
+            <div class="avatar-text avatar-md items-details-close-trigger" data-bs-dismiss="offcanvas"
+                 data-bs-toggle="tooltip" data-bs-trigger="hover" title="Topshiriqlarga qaytish"><i
+                    class="feather-arrow-left"></i></div>
+            <span class="vr text-muted mx-4"></span>
+            <a href="javascript:void(0);">
+                <h2 class="fs-14 fw-bold text-truncate-1-line">{{ task.title }}</h2>
+                <span class="fs-12 fw-normal text-muted text-truncate-1-line">{{ task.deadline|date:'d.m.Y H:i' }} gacha</span>
+            </a>
+        </div>
+        <div class="d-none d-md-flex gap-1 align-items-center justify-content-center">
+            <a href="javascript:void(0);"
+               class="d-none d-lg-flex align-items-center fs-9 fw-bold text-uppercase text-dark py-2 px-3 border border-gray-2 rounded">
+                <i class="feather-link-2 me-2"></i>
+                <span class="text-nowrap">Copy Link</span>
+            </a>
+            <a href="javascript:void(0)" class="d-flex">
+                <div class="avatar-text avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                     title="Add Contractors"><i class="feather-plus"></i></div>
+            </a>
+            <a href="javascript:void(0)" class="d-flex successAlertMessage">
+                <div class="avatar-text avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                     title="Remainder Notify"><i class="feather-bell"></i></div>
+            </a>
+            <a href="javascript:void(0)" class="d-flex successAlertMessage">
+                <div class="avatar-text avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                     title="Add to Favorite"><i class="feather-star"></i></div>
+            </a>
+            <a href="javascript:void(0)" class="d-flex successAlertMessage">
+                <div class="avatar-text avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                     title="Add to Calendar"><i class="feather-calendar"></i></div>
+            </a>
+            <div class="dropdown d-none d-sm-block">
+                <a href="javascript:void(0)" class="d-flex" data-bs-toggle="dropdown" data-bs-offset="0,25">
+                    <div class="avatar-text avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                         title="More Options">
+                        <i class="feather-more-vertical"></i>
+                    </div>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <a href="javascript:void(0);" class="dropdown-item">
+                            <i class="feather-eye-off me-3"></i>
+                            <span>Make Unread</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" class="dropdown-item">
+                            <i class="feather-sliders me-3"></i>
+                            <span>Filter Messages</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" class="dropdown-item">
+                            <i class="feather-archive me-3"></i>
+                            <span>Make as Archive</span>
+                        </a>
+                    </li>
+                    <li class="dropdown-divider"></li>
+                    <li>
+                        <a href="javascript:void(0);" class="dropdown-item">
+                            <i class="feather-link-2 me-3"></i>
+                            <span>Attach files</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" class="dropdown-item">
+                            <i class="feather-calendar me-3"></i>
+                            <span>Set Due Date</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" class="dropdown-item">
+                            <i class="feather-eye me-3"></i>
+                            <span>Follow Task</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" class="dropdown-item">
+                            <i class="feather-bookmark me-3"></i>
+                            <span>Apply Labels</span>
+                        </a>
+                    </li>
+                    <li class="dropdown-divider"></li>
+                    <li>
+                        <a href="javascript:void(0);" class="dropdown-item">
+                            <i class="feather-alert-triangle me-3"></i>
+                            <span>Report Spam</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" class="dropdown-item">
+                            <i class="feather-alert-octagon me-3"></i>
+                            <span>Report phishing</span>
+                        </a>
+                    </li>
+                    <li class="dropdown-divider"></li>
+                    <li>
+                        <a href="javascript:void(0);" class="dropdown-item">
+                            <i class="feather-bell-off me-3"></i>
+                            <span>Mute Conversion</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" class="dropdown-item">
+                            <i class="feather-slash me-3"></i>
+                            <span>Block Conversion</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" class="dropdown-item">
+                            <i class="feather-trash-2 me-3"></i>
+                            <span>Delete Conversion</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="offcanvas-body">
+<!--        <div class="row">-->
+<!--            <div class="col-sm-6">-->
+<!--                <div class="form-group mb-4">-->
+<!--                    <label class="form-label">Holati:</label>-->
+<!--                    <select class="form-control" data-select2-selector="status">-->
+<!--                        <option value="secondary" data-bg="bg-secondary">Qabul qilingan</option>-->
+<!--                        <option value="primary" data-bg="bg-primary" selected>Jarayonda</option>-->
+<!--                        <option value="success" data-bg="bg-success">Bajarildi</option>-->
+<!--                        <option value="danger" data-bg="bg-danger">Bajarilmadi</option>-->
+<!--                        <option value="warning" data-bg="bg-warning">Qayta ishlashga yuborildi</option>-->
+<!--                    </select>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="col-sm-6">-->
+<!--                <div class="form-group mb-4">-->
+<!--                    <label class="form-label">Labels:</label>-->
+<!--                    <select class="form-select form-control" data-select2-selector="label">-->
+<!--                        <option value="primary" data-bg="bg-primary">Team</option>-->
+<!--                        <option value="teal" data-bg="bg-teal">Primary</option>-->
+<!--                        <option value="success" data-bg="bg-success">Updates</option>-->
+<!--                        <option value="warning" data-bg="bg-warning">Personal</option>-->
+<!--                        <option value="danger" data-bg="bg-danger" selected>Promotions</option>-->
+<!--                        <option value="indigo" data-bg="bg-indigo">Customs</option>-->
+<!--                    </select>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="col-sm-6">-->
+<!--                <div class="form-group mb-4">-->
+<!--                    <label class="form-label">Types:</label>-->
+<!--                    <select class="form-select form-control" data-select2-selector="type">-->
+<!--                        <option value="primary" data-bg="bg-primary" selected>Yangi</option>-->
+<!--                        <option value="teal" data-bg="bg-teal">Muddati o'tgan</option>-->
+<!--                        <option value="success" data-bg="bg-success">Jarayonda</option>-->
+<!--                        <option value="warning" data-bg="bg-warning">Bajarilgan</option>-->
+<!--                        <option value="danger" data-bg="bg-danger">Everythings</option>-->
+<!--                    </select>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="col-sm-6">-->
+<!--                <div class="form-group mb-4">-->
+<!--                    <label class="form-label">Tags:</label>-->
+<!--                    <select class="form-select form-control" data-select2-selector="tag" multiple>-->
+<!--                        <option value="primary" data-bg="bg-primary">Team</option>-->
+<!--                        <option value="teal" data-bg="bg-teal">Primary</option>-->
+<!--                        <option value="success" data-bg="bg-success">Updates</option>-->
+<!--                        <option value="warning" data-bg="bg-warning" selected>Personal</option>-->
+<!--                        <option value="danger" data-bg="bg-danger">Promotions</option>-->
+<!--                        <option value="indigo" data-bg="bg-indigo">Customs</option>-->
+<!--                    </select>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="col-sm-6">-->
+<!--                <div class="form-group mb-4">-->
+<!--                    <label class="form-label">Ijrochilar:</label>-->
+<!--                    <select class="form-select form-control" data-select2-selector="user" multiple>-->
+<!--                        <option value="alex@outlook.com" data-user="1" selected>alex@outlook.com</option>-->
+<!--                        <option value="john.deo@outlook.com" data-user="2">john.deo@outlook.com</option>-->
+<!--                        <option value="green.cutte@outlook.com" data-user="3">green.cutte@outlook.com</option>-->
+<!--                        <option value="nancy.elliot@outlook.com" data-user="4">nancy.elliot@outlook.com</option>-->
+<!--                        <option value="mar.audrey@gmail.com" data-user="5">mar.audrey@gmail.com</option>-->
+<!--                        <option value="erna.serpa@outlook.com" data-user="6">erna.serpa@outlook.com</option>-->
+<!--                        <option value="alex@outlook.com" data-user="7">alex@outlook.com</option>-->
+<!--                        <option value="john.deo@outlook.com" data-user="8">john.deo@outlook.com</option>-->
+<!--                        <option value="green.cutte@outlook.com" data-user="9">green.cutte@outlook.com</option>-->
+<!--                        <option value="nancy.elliot@outlook.com" data-user="10">nancy.elliot@outlook.com</option>-->
+<!--                        <option value="mar.audrey@gmail.com" data-user="11">mar.audrey@gmail.com</option>-->
+<!--                        <option value="erna.serpa@outlook.com" data-user="12">erna.serpa@outlook.com</option>-->
+<!--                    </select>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="col-12">-->
+<!--                <div id="">-->
+<!--                    <label class="form-label">Muddati</label>-->
+<!--                    <div class="input-group date input-daterange">-->
+<!--                        <input type="date" value="{{ task.started|date:'Y-m-d' }}" class="form-control" placeholder="Boshlanish vaqti" disabled>-->
+<!--                        <span class="input-group-text">-</span>-->
+<!--                        <input type="date" value="{{ task.deadline|date:'Y-m-d' }}" class="form-control" placeholder="Tugash vaqti" disabled>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <hr class="my-5">-->
+        <!--! BEGIN: Notes !-->
+        <div class="notes">
+            <div class="d-flex justify-content-between mb-4">
+                <div>
+                    <h2 class="fs-16 fw-bold mb-1">Batafsil matni</h2>
+                    <span class="fs-12 text-muted">{{ task.description|default:'Mavjud emas' }}</span>
+                </div>
+                <a href="javascript:void(0);" class="avatar-text avatar-md">
+                    <i class="feather-info"></i>
+                </a>
+            </div>
+<!--            <div class="editor">-->
+<!--                <div class="ht-200" id="notesEditor"></div>-->
+<!--            </div>-->
+        </div>
+        <!--! END: Notes !-->
+        <hr class="my-5">
+        <!--! BEGIN: Checklist !-->
+        <div class="checklist">
+            <div class="d-flex justify-content-between mb-4">
+                <div>
+                    <h2 class="fs-16 fw-bold mb-1">Ijrochilar</h2>
+<!--                    <span class="fs-12 text-muted">Issues found checklist</span>-->
+                </div>
+                <a href="javascript:void(0);" class="avatar-text avatar-md">
+                    <i class="feather-info"></i>
+                </a>
+            </div>
+            <ul class="list-unstyled" id="">
+                {% for performer in task.performers.all %}
+                    <li>{{ performer.full_name }}</li>
+                {% endfor %}
+            </ul>
+<!--            <div class="input-group mt-3">-->
+<!--                <input id="checklistInput" type="text" class="form-control" placeholder="Title...">-->
+<!--                <a href="javascript:void(0)" class="input-group-text addCheckList" onclick="newElement()">-->
+<!--                    <i class="feather-plus me-2"></i>-->
+<!--                    <span>Add Checklist</span>-->
+<!--                </a>-->
+<!--            </div>-->
+        </div>
+<!--        ! END: Checklist !-->
+        <!--! BEGIN: Answers !-->
+        <hr class="my-5">
+        <div class="comments">
+            <div class="d-flex justify-content-between mb-4">
+                <div>
+                    {% if task.files.all %}
+                    <h2 class="fs-16 fw-700 mb-1">Berilgan javoblar</h2>
+                    {% else %}
+                    <h2 class="fs-16 fw-700 mb-1">Javob berilmagan</h2>
+                    {% endif %}
+<!--                    <small class="text-muted">Topshiriq bo'yicha</small>-->
+                </div>
+                <a href="javascript:void(0);" class="avatar-text avatar-md">
+                    <i class="feather-info"></i>
+                </a>
+            </div>
+            {% for file_obj in task.files.all %}
+            <div class="d-flex mb-4">
+                <div class="avatar-image me-3">
+                    <a href="javascript:void(0);">
+                        <img src="{{ file_obj.performer.photo_url }}" class="img-fluid" alt="">
+                    </a>
+                </div>
+                <div class="">
+                    <a href="javascript:void(0);" class="mb-1 d-flex align-items-center">
+                        <span>{{ file_obj.performer.full_name }}</span>
+                        <span class="wd-3 ht-3 bg-gray-500 rounded-circle d-flex mx-2 d-none d-sm-block"></span>
+                        <span class="fs-10 text-uppercase text-muted d-none d-sm-block">{{ file_obj.created_at|date:'d.m.Y H:i' }}</span>
+                    </a>
+                    <div class="d-flex align-items-center">
+                        <a href="/{{ file_obj.file }}">
+                            <p class="fs-12 text-dark p-3 bg-gray-200 rounded-3 mb-0"><i class="bi bi-file-earmark-text-fill"></i> {{ file_obj.filename }}</p>
+                        </a>
+                        <div class="dropdown ms-2">
+                            <a href="javascript:void(0);" class="avatar-text avatar-sm" data-bs-toggle="dropdown">
+                                <i class="feather-more-vertical fs-10"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a href="/{{ file_obj.file }}" class="dropdown-item">
+                                        <i class="bi bi-cloud-download"></i>
+                                        <span class="fs-11">Yuklash</span>
+                                    </a>
+                                </li>
+<!--                                <li>-->
+<!--                                    <a href="javascript:void(0);" class="dropdown-item">-->
+<!--                                        <i class="feather-eye-off fs-10 me-3"></i>-->
+<!--                                        <span class="fs-11">Hide</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                                <li class="dropdown-divider"></li>-->
+<!--                                <li>-->
+<!--                                    <a href="javascript:void(0);" class="dropdown-item">-->
+<!--                                        <i class="feather-slash fs-10 me-3"></i>-->
+<!--                                        <span class="fs-11">Qayta isglashga yuborish</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <a href="javascript:void(0);" class="dropdown-item">-->
+<!--                                        <i class="feather-flag fs-10 me-3"></i>-->
+<!--                                        <span class="fs-11">Qabul qilish</span>-->
+<!--                                    </a>-->
+<!--                                </li>-->
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="fs-10 text-uppercase d-flex align-items-center mt-2">
+                        {% if file_obj.performer == request.user.profile %}
+                        <a href="javascript:void(0);" class="text-muted">O'chirish</a>
+                        <span class="wd-3 ht-3 bg-gray-500 rounded-circle d-flex mx-2"></span>
+                        {% endif %}
+                        <a href="javascript:void(0);" class="text-muted">Javob berish</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <!--! END: Answers !-->
+        <div class="pt-0">
+        {% if task.files.all and task.status == 'submitted' %}
+            <button type="button" onclick="updateTaskStatus('{{ task.id }}', 'approved')" class="btn btn-success d-inline-block mt-4">Nazoratdan yechish</button>
+            <button type="button" onclick="updateTaskStatus('{{ task.id }}', 'returned')" class="btn btn-warning d-inline-block mt-4">Qayta ishlashga yuborish</button>
+        {% elif task.status == 'approved' %}
+            <h5 class="text-success">Nazoratdan yechilgan</h5>
+        {% elif task.status == 'returned' %}
+            <h5 class="text-warning">Qayta ishlashga yuborilgan</h5>
+        {% endif %}
+        <br>
+        </div>
+        <!--! START: Comments !-->
+        <hr class="my-5">
+        <div class="comments">
+            <div class="d-flex justify-content-between mb-4">
+                <div>
+                    <h2 class="fs-16 fw-700 mb-1">Xabarlar</h2>
+<!--                    <small class="text-muted">Topshiriq bo'yicha</small>-->
+                </div>
+                <a href="javascript:void(0);" class="avatar-text avatar-md">
+                    <i class="feather-info"></i>
+                </a>
+            </div>
+            {% for comment in task.comments.all %}
+            <div class="d-flex mb-4">
+                <div class="avatar-image me-3">
+                    <a href="javascript:void(0);">
+                        <img src="{{ comment.author.photo_url }}" class="img-fluid" alt="">
+                    </a>
+                </div>
+                <div class="">
+                    <a href="javascript:void(0);" class="mb-1 d-flex align-items-center">
+                        <span>{{ comment.author.full_name }}</span>
+                        <span class="wd-3 ht-3 bg-gray-500 rounded-circle d-flex mx-2 d-none d-sm-block"></span>
+                        <span class="fs-10 text-uppercase text-muted d-none d-sm-block">{{ comment.created_at|date:'d.m.Y H:i' }}</span>
+                    </a>
+                    <div class="d-flex align-items-center">
+                        <p class="fs-12 text-dark p-3 bg-gray-200 rounded-3 mb-0">{{ comment.comment }}</p>
+                        <div class="dropdown ms-2">
+                            <a href="javascript:void(0);" class="avatar-text avatar-sm" data-bs-toggle="dropdown">
+                                <i class="feather-more-vertical fs-10"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <i class="feather-bell-off fs-10 me-3"></i>
+                                        <span class="fs-11">Mute</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <i class="feather-eye-off fs-10 me-3"></i>
+                                        <span class="fs-11">Hide</span>
+                                    </a>
+                                </li>
+                                <li class="dropdown-divider"></li>
+                                <li>
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <i class="feather-slash fs-10 me-3"></i>
+                                        <span class="fs-11">Block</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <i class="feather-flag fs-10 me-3"></i>
+                                        <span class="fs-11">Report</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="fs-10 text-uppercase d-flex align-items-center mt-2">
+                        <a href="javascript:void(0);" class="text-muted">O'chirish</a>
+                        <span class="wd-3 ht-3 bg-gray-500 rounded-circle d-flex mx-2"></span>
+                        <a href="javascript:void(0);" class="text-muted">Javob berish</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <!--! END: Comments !-->
+        <div class="pt-0">
+            <form action="{% url 'tasks:task_comment' task.id %}" method="post">
+                {% csrf_token %}
+<!--                <h5 class="mb-1">Topshiriq bo'yicha xabar yuborish</h5>-->
+                <textarea name="comment" rows="5" class="form-control" placeholder="Topshiriq muvaffaqiyatli bajarildi..." required minlength="2"></textarea>
+                <button type="submit" class="btn btn-success d-inline-block mt-4">Yuborish</button>
+                <br>
+            </form>
+<!--                <button type="button" class="btn btn-primary d-inline-block mt-4" data-bs-toggle="modal" data-bs-target="#additional_time" data-id="{{ task.id }}">Qo'shimcha muhlat so'rash</button>-->
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endfor %}
+<!--! [End] Tasks Details Offcanvas !-->
+
+
+<!--! [Start] Request task additional time !-->
+<div class="modal fade" id="deadlineExtensionRequest" tabindex="-1">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Qo'shimcha muddat so'rash</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-4">
+                        <label class="form-label">Qachongacha muhlat so'ramoqchisiz</label>
+                        <div class="input-group date input-daterange">
+                            <input type="datetime-local" class="form-control" placeholder="gacha" name="requested_deadline" autocomplete="off" required>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Sababi</label>
+                        <div class="input-group date input-daterange">
+                            <input type="text" class="form-control" name="reason" autocomplete="off" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-danger" data-bs-dismiss="modal">Bekor qilish</button>
+                    <button type="submit" class="btn btn-primary">Tasdiqlash</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--! [End] Add New task Modal !-->
+
+<!--! [Start] Request task additional time !-->
+<div class="modal fade" id="answeringToTask" tabindex="-1">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Topshiriqqa javob berish</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="{% url 'tasks:answer_task' 10 %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-4">
+                        <label class="form-label">Javob matni</label>
+                        <div class="input-group date input-daterange">
+                            <input type="text" class="form-control" name="answer_text" autocomplete="off" required>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Faylni yuklash</label>
+                        <input id="answer_file_input" type="file" class="filepond" name="filepond" multiple data-allow-reorder="true" data-max-file-size="3MB">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-danger" data-bs-dismiss="modal">Bekor qilish</button>
+                    <button type="submit" class="btn btn-primary">Tasdiqlash</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--! [End] Add New task Modal !-->
+
+{% endblock %}
+
+
+{% block page_js %}
+    <!-- vendors.min.js {always must need to be top} -->
+    <script src="{% static 'assets/vendors/js/vendors.min.js' %}"></script>
+    <script src="{% static 'assets/vendors/js/select2.min.js' %}"></script>
+    <script src="{% static 'assets/vendors/js/select2-active.min.js' %}"></script>
+    <script src="{% static 'assets/vendors/js/datepicker.min.js' %}"></script>
+    <script src="{% static 'assets/vendors/js/quill.min.js' %}"></script>
+    <!--! END: Vendors JS !-->
+    <!--! BEGIN: Apps Init  !-->
+    <script src="{% static 'assets/js/common-init.min.js' %}"></script>
+    <script src="{% static 'assets/js/apps-tasks-init.min.js' %}"></script>
+    <!--! END: Apps Init !-->
+    <!--! BEGIN: Theme Customizer  !-->
+    <script src="{% static 'assets/js/theme-customizer-init.min.js' %}"></script>
+    <!--! END: Theme Customizer !-->
+    <!--! Checklist JS !-->
+    <script src="{% static 'assets/js/railtask.js' %}"></script>
+
+<!--    <script>-->
+<!--        var myNodelist = document.querySelectorAll("#checklist> li");-->
+<!--        var i;-->
+<!--        for (i = 0; i < myNodelist.length; i++) {-->
+<!--            var span = document.createElement("SPAN");-->
+<!--            var txt = document.createTextNode("\u00D7");-->
+<!--            span.className = "close";-->
+<!--            span.appendChild(txt);-->
+<!--            myNodelist[i].appendChild(span);-->
+<!--        }-->
+
+<!--        var close = document.getElementsByClassName("close");-->
+<!--        var i;-->
+<!--        for (i = 0; i < close.length; i++) {-->
+<!--            close[i].onclick = function() {-->
+<!--                var div = this.parentElement;-->
+<!--                div.style.display = "none";-->
+<!--            };-->
+<!--        }-->
+
+<!--        var list = document.getElementById("checklist");-->
+<!--        list.addEventListener(-->
+<!--            "click",-->
+<!--            function(ev) {-->
+<!--                if (ev.target.tagName === "LI") {-->
+<!--                    ev.target.classList.toggle("checked");-->
+<!--                }-->
+<!--            },-->
+<!--            false-->
+<!--        );-->
+
+<!--        function newElement() {-->
+<!--            var li = document.createElement("li");-->
+<!--            var inputValue = document.getElementById("checklistInput").value;-->
+<!--            var t = document.createTextNode(inputValue);-->
+<!--            li.appendChild(t);-->
+<!--            if (inputValue === "") {-->
+<!--                alert("You must write something!");-->
+<!--            } else {-->
+<!--                document.getElementById("checklist").appendChild(li);-->
+<!--            }-->
+<!--            document.getElementById("checklistInput").value = "";-->
+
+<!--            var span = document.createElement("SPAN");-->
+<!--            var txt = document.createTextNode("\u00D7");-->
+<!--            span.className = "close";-->
+<!--            span.appendChild(txt);-->
+<!--            li.appendChild(span);-->
+
+<!--            for (i = 0; i < close.length; i++) {-->
+<!--                close[i].onclick = function() {-->
+<!--                    var div = this.parentElement;-->
+<!--                    div.style.display = "none";-->
+<!--                };-->
+<!--            }-->
+<!--        }-->
+<!--    </script>-->
+
+
+    <script>
+        window.pond = null;  // global o'zgaruvchi sifatida
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const inputElement = document.getElementById('answer_file_input');
+
+            // Faqat agar hali yaratilmagan bo‘lsa
+            if (!pond) {
+                pond = FilePond.create(inputElement, {
+                    instantUpload: false,
+                    labelIdle: '📁 Faylni bu yerga tashlang yoki <span class="filepond--label-action">tanlang</span>',
+                    labelFileProcessing: 'Yuborilmoqda...',
+                    labelTapToCancel: 'Bekor qilish uchun bosing',
+                });
+            }
+
+            const answerModal = document.getElementById('answerModal');
+            answerModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                const taskId = button.getAttribute('data-task-id');
+                pond.setOptions({
+                    server: `/tasks/upload-file/${taskId}/`
+                });
+            });
+        });
+    </script>
+
+    <script>
+    // Funksiya: server manzilini dinamik o‘zgartirish
+    function updatePondServer(taskId) {
+        if (pond) {
+            pond.setOptions({
+                server: {
+                    url: `/tasks/upload-file/${taskId}`,
+                    process: {
+                        url: '',
+                        method: 'POST',
+                    }
+                }
+            });
+        }
+    }
+    </script>
+
+{% endblock %}

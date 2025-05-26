@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+{% load static %}
+{% load custom_tags %}
+<html lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword" content="">
+    <meta name="author" content="nabiyevdev">
+    <!--! The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags !-->
+    <!--! BEGIN: Apps Title-->
+    <title>RailTask</title>
+    <!--! END:  Apps Title-->
+    <!--! BEGIN: Favicon-->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/images/favicon.ico' %}">
+    <!--! END: Favicon-->
+    <!--! BEGIN: Bootstrap CSS-->
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <!--! END: Bootstrap CSS-->
+    <!--! BEGIN: Vendors CSS-->
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/vendors/css/vendors.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/vendors/css/select2.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/vendors/css/select2-theme.min.css' %}">
+    {% block special_style %}
+    {% endblock %}
+    <!--! END: Vendors CSS-->
+    <!--! BEGIN: Custom CSS-->
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/theme.min.css' %}">
+    <!--! END: Custom CSS-->
+    <!--! HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries !-->
+    <!--! WARNING: Respond.js doesn"t work if you view the page via file: !-->
+    <!--[if lt IE 9]>
+    <script src="https:oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https:oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <!--! ================================================================ !-->
+    <!--! [Start] Navigation Manu !-->
+    <!--! ================================================================ !-->
+    <nav class="nxl-navigation">
+        <div class="navbar-wrapper">
+            <div class="m-header">
+                <a href="/tasks/" class="b-brand">
+                    <!-- ========   change your logo hear   ============ -->
+                    <img src="{% static 'assets/images/logo-full.png' %}" alt="" class="logo logo-lg" style="max-width: 160px;">
+                    <img src="{% static 'assets/images/logo-abbr.png' %}" alt="" class="logo logo-sm" style="max-width: 160px;">
+                </a>
+            </div>
+            <div class="navbar-content">
+                <ul class="nxl-navbar">
+                    <li class="nxl-item nxl-caption">
+                        <label>Menyu</label>
+                    </li>
+<!--                    <li class="nxl-item nxl-hasmenu">-->
+<!--                        <a href="javascript:void(0);" class="nxl-link">-->
+<!--                            <span class="nxl-micon"><i class="feather-airplay"></i></span>-->
+<!--                            <span class="nxl-mtext">Dashboards</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>-->
+<!--                        </a>-->
+<!--                        <ul class="nxl-submenu">-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/index.html">CRM</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/analytics.html">Analytics</a></li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
+<!--                    <li class="nxl-item nxl-hasmenu">-->
+<!--                        <a href="javascript:void(0);" class="nxl-link">-->
+<!--                            <span class="nxl-micon"><i class="feather-cast"></i></span>-->
+<!--                            <span class="nxl-mtext">Reports</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>-->
+<!--                        </a>-->
+<!--                        <ul class="nxl-submenu">-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/reports-sales.html">Sales Report</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/reports-leads.html">Leads Report</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/reports-project.html">Project Report</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/reports-timesheets.html">Timesheets Report</a></li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
+                    {% if request.user.profile.role == "assigner" %}
+                    <li class="nxl-item nxl-hasmenu">
+                        <a href="{% url 'tasks:dashboard' %}" class="nxl-link">
+                            <span class="nxl-micon"><i class="bi bi-pie-chart"></i></span>
+                            <span class="nxl-mtext">Nazorat paneli</span><span class="nxl-arrow"></span>
+                        </a>
+                    </li>
+                    {% endif %}
+                        <a href="javascript:void(0);" class="nxl-link">
+                            <span class="nxl-micon"><i class="bi bi-list-task"></i></span>
+                            <span class="nxl-mtext">Topshiriqlar</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                        </a>
+                        <ul class="nxl-submenu">
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/apps-chat.html">Chat</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/apps-email.html">Email</a></li>-->
+                            {%  if request.user.profile.role == "assigner" %}
+                                <li class="nxl-item"><a class="nxl-link" href="/tasks/">Mening topshiriqlarim</a></li>
+<!--                                <li class="nxl-item"><a class="nxl-link" href="/tasks/workers">Xodimlar bo'yicha</a></li>-->
+                            {%  endif %}
+                            <li class="nxl-item"><a class="nxl-link" href="/tasks/">Bajarishim kerak</a></li>
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/apps-storage.html">Storage</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/apps-calendar.html">Calendar</a></li>-->
+                        </ul>
+                    </li>
+<!--                    <li class="nxl-item nxl-hasmenu">-->
+<!--                        <a href="javascript:void(0);" class="nxl-link">-->
+<!--                            <span class="nxl-micon"><i class="feather-at-sign"></i></span>-->
+<!--                            <span class="nxl-mtext">Proposal</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>-->
+<!--                        </a>-->
+<!--                        <ul class="nxl-submenu">-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/proposal.html">Proposal</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/proposal-view.html">Proposal View</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/proposal-edit.html">Proposal Edit</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/proposal-create.html">Proposal Create</a></li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
+<!--                    <li class="nxl-item nxl-hasmenu">-->
+<!--                        <a href="javascript:void(0);" class="nxl-link">-->
+<!--                            <span class="nxl-micon"><i class="feather-dollar-sign"></i></span>-->
+<!--                            <span class="nxl-mtext">Payment</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>-->
+<!--                        </a>-->
+<!--                        <ul class="nxl-submenu">-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/payment.html">Payment</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/invoice-view.html">Invoice View</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/invoice-create.html">Invoice Create</a></li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
+<!--                    <li class="nxl-item nxl-hasmenu">-->
+<!--                        <a href="javascript:void(0);" class="nxl-link">-->
+<!--                            <span class="nxl-micon"><i class="feather-users"></i></span>-->
+<!--                            <span class="nxl-mtext">Customers</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>-->
+<!--                        </a>-->
+<!--                        <ul class="nxl-submenu">-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/customers.html">Customers</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/my-profile.html">Customers View</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/customers-create.html">Customers Create</a></li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
+<!--                    <li class="nxl-item nxl-hasmenu">-->
+<!--                        <a href="javascript:void(0);" class="nxl-link">-->
+<!--                            <span class="nxl-micon"><i class="feather-alert-circle"></i></span>-->
+<!--                            <span class="nxl-mtext">Leads</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>-->
+<!--                        </a>-->
+<!--                        <ul class="nxl-submenu">-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/leads.html">Leads</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/leads-view.html">Leads View</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/leads-create.html">Leads Create</a></li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
+<!--                    <li class="nxl-item nxl-hasmenu">-->
+<!--                        <a href="javascript:void(0);" class="nxl-link">-->
+<!--                            <span class="nxl-micon"><i class="feather-briefcase"></i></span>-->
+<!--                            <span class="nxl-mtext">Projects</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>-->
+<!--                        </a>-->
+<!--                        <ul class="nxl-submenu">-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/projects.html">Projects</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/projects-view.html">Projects View</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/projects-create.html">Projects Create</a></li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
+<!--                    <li class="nxl-item nxl-hasmenu">-->
+<!--                        <a href="javascript:void(0);" class="nxl-link">-->
+<!--                            <span class="nxl-micon"><i class="feather-layout"></i></span>-->
+<!--                            <span class="nxl-mtext">Widgets</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>-->
+<!--                        </a>-->
+<!--                        <ul class="nxl-submenu">-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/widgets-lists.html">Lists</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/widgets-tables.html">Tables</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/widgets-charts.html">Charts</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/widgets-statistics.html">Statistics</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/widgets-miscellaneous.html">Miscellaneous</a></li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
+<!--                    <li class="nxl-item nxl-hasmenu">-->
+<!--                        <a href="javascript:void(0);" class="nxl-link">-->
+<!--                            <span class="nxl-micon"><i class="feather-settings"></i></span>-->
+<!--                            <span class="nxl-mtext">Settings</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>-->
+<!--                        </a>-->
+<!--                        <ul class="nxl-submenu">-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/settings-general.html">General</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/settings-seo.html">SEO</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/settings-tags.html">Tags</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/settings-email.html">Email</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/settings-tasks.html">Tasks</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/settings-leads.html">Leads</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/settings-support.html">Support</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/settings-finance.html">Finance</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/settings-gateways.html">Gateways</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/settings-customers.html">Customers</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/settings-localization.html">Localization</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/settings-recaptcha.html">reCAPTCHA</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/settings-miscellaneous.html">Miscellaneous</a></li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
+<!--                    <li class="nxl-item nxl-hasmenu">-->
+<!--                        <a href="javascript:void(0);" class="nxl-link">-->
+<!--                            <span class="nxl-micon"><i class="feather-power"></i></span>-->
+<!--                            <span class="nxl-mtext">Authentication</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>-->
+<!--                        </a>-->
+<!--                        <ul class="nxl-submenu">-->
+<!--                            <li class="nxl-item nxl-hasmenu">-->
+<!--                                <a href="javascript:void(0);" class="nxl-link">-->
+<!--                                    <span class="nxl-mtext">Login</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>-->
+<!--                                </a>-->
+<!--                                <ul class="nxl-submenu">-->
+<!--                                    <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/auth-login-cover.html">Cover</a></li>-->
+<!--                                    <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/auth-login-minimal.html">Minimal</a></li>-->
+<!--                                    <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/auth-login-creative.html">Creative</a></li>-->
+<!--                                </ul>-->
+<!--                            </li>-->
+<!--                            <li class="nxl-item nxl-hasmenu">-->
+<!--                                <a href="javascript:void(0);" class="nxl-link">-->
+<!--                                    <span class="nxl-mtext">Register</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>-->
+<!--                                </a>-->
+<!--                                <ul class="nxl-submenu">-->
+<!--                                    <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/auth-register-cover.html">Cover</a></li>-->
+<!--                                    <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/auth-register-minimal.html">Minimal</a></li>-->
+<!--                                    <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/auth-register-creative.html">Creative</a></li>-->
+<!--                                </ul>-->
+<!--                            </li>-->
+<!--                            <li class="nxl-item nxl-hasmenu">-->
+<!--                                <a href="javascript:void(0);" class="nxl-link">-->
+<!--                                    <span class="nxl-mtext">Error-404</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>-->
+<!--                                </a>-->
+<!--                                <ul class="nxl-submenu">-->
+<!--                                    <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/auth-404-cover.html">Cover</a></li>-->
+<!--                                    <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/auth-404-minimal.html">Minimal</a></li>-->
+<!--                                    <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/auth-404-creative.html">Creative</a></li>-->
+<!--                                </ul>-->
+<!--                            </li>-->
+<!--                            <li class="nxl-item nxl-hasmenu">-->
+<!--                                <a href="javascript:void(0);" class="nxl-link">-->
+<!--                                    <span class="nxl-mtext">Reset Pass</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>-->
+<!--                                </a>-->
+<!--                                <ul class="nxl-submenu">-->
+<!--                                    <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/auth-reset-cover.html">Cover</a></li>-->
+<!--                                    <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/auth-reset-minimal.html">Minimal</a></li>-->
+<!--                                    <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/auth-reset-creative.html">Creative</a></li>-->
+<!--                                </ul>-->
+<!--                            </li>-->
+<!--                            <li class="nxl-item nxl-hasmenu">-->
+<!--                                <a href="javascript:void(0);" class="nxl-link">-->
+<!--                                    <span class="nxl-mtext">Verify OTP</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>-->
+<!--                                </a>-->
+<!--                                <ul class="nxl-submenu">-->
+<!--                                    <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/auth-verify-cover.html">Cover</a></li>-->
+<!--                                    <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/auth-verify-minimal.html">Minimal</a></li>-->
+<!--                                    <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/auth-verify-creative.html">Creative</a></li>-->
+<!--                                </ul>-->
+<!--                            </li>-->
+<!--                            <li class="nxl-item nxl-hasmenu">-->
+<!--                                <a href="javascript:void(0);" class="nxl-link">-->
+<!--                                    <span class="nxl-mtext">Maintenance</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>-->
+<!--                                </a>-->
+<!--                                <ul class="nxl-submenu">-->
+<!--                                    <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/auth-maintenance-cover.html">Cover</a></li>-->
+<!--                                    <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/auth-maintenance-minimal.html">Minimal</a></li>-->
+<!--                                    <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/auth-maintenance-creative.html">Creative</a></li>-->
+<!--                                </ul>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
+<!--                    <li class="nxl-item nxl-hasmenu">-->
+<!--                        <a href="javascript:void(0);" class="nxl-link">-->
+<!--                            <span class="nxl-micon"><i class="feather-life-buoy"></i></span>-->
+<!--                            <span class="nxl-mtext">Help Center</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>-->
+<!--                        </a>-->
+<!--                        <ul class="nxl-submenu">-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="https://wrapcoders.tawk.help">Support</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/help-knowledgebase.html">KnowledgeBase</a></li>-->
+<!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/docs/documentations.html">Documentations</a></li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
+                </ul>
+<!--                <div class="card text-center">-->
+<!--                    <div class="card-body">-->
+<!--                        <i class="feather-sunrise fs-4 text-dark"></i>-->
+<!--                        <h6 class="mt-4 text-dark fw-bolder">Downloading Center</h6>-->
+<!--                        <p class="fs-11 my-3 text-dark">Duralux is a production ready CRM to get started up and running easily.</p>-->
+<!--                        <a href="javascript:void(0);" class="btn btn-primary text-dark w-100">Download Now</a>-->
+<!--                    </div>-->
+<!--                </div>-->
+            </div>
+        </div>
+    </nav>
+    <!--! ================================================================ !-->
+    <!--! [End]  Navigation Manu !-->
+    <!--! ================================================================ !-->
+    <!--! ================================================================ !-->
+    <!--! [Start] Header !-->
+    <!--! ================================================================ !-->
+    <header class="nxl-header">
+        <div class="header-wrapper">
+            <!--! [Start] Header Left !-->
+            <div class="header-left d-flex align-items-center gap-4">
+                <!--! [Start] nxl-head-mobile-toggler !-->
+                <a href="javascript:void(0);" class="nxl-head-mobile-toggler" id="mobile-collapse">
+                    <div class="hamburger hamburger--arrowturn">
+                        <div class="hamburger-box">
+                            <div class="hamburger-inner"></div>
+                        </div>
+                    </div>
+                </a>
+                <!--! [Start] nxl-head-mobile-toggler !-->
+                <!--! [Start] nxl-navigation-toggle !-->
+                <div class="nxl-navigation-toggle">
+                    <a href="javascript:void(0);" id="menu-mini-button">
+                        <i class="feather-align-left"></i>
+                    </a>
+                    <a href="javascript:void(0);" id="menu-expend-button" style="display: none;">
+                        <i class="feather-arrow-right"></i>
+                    </a>
+                </div>
+                <!--! [End] nxl-navigation-toggle !-->
+                <!--! [Start] nxl-lavel-mega-menu-toggle !-->
+            </div>
+            <!--! [End] Header Left !-->
+            <!--! [Start] Header Right !-->
+            <div class="header-right ms-auto">
+                <div class="d-flex align-items-center">
+{#                    <div class="dropdown nxl-h-item nxl-header-search">#}
+{#                        <a href="javascript:void(0);" class="nxl-head-link me-0" data-bs-toggle="dropdown" data-bs-auto-close="outside">#}
+{#                            <i class="feather-search"></i>#}
+{#                        </a>#}
+{#                        <div class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-search-dropdown">#}
+{#                            <div class="input-group search-form">#}
+{#                                <span class="input-group-text">#}
+{#                                    <i class="feather-search fs-6 text-muted"></i>#}
+{#                                </span>#}
+{#                                <input type="text" class="form-control search-input-field" placeholder="Search....">#}
+{#                                <span class="input-group-text">#}
+{#                                    <button type="button" class="btn-close"></button>#}
+{#                                </span>#}
+{#                            </div>#}
+{#                            <div class="dropdown-divider mt-0"></div>#}
+{#                            <div class="search-items-wrapper">#}
+{#                                <div class="searching-for px-4 py-2">#}
+{#                                    <p class="fs-11 fw-medium text-muted">I'm searching for...</p>#}
+{#                                    <div class="d-flex flex-wrap gap-1">#}
+{#                                        <a href="javascript:void(0);" class="flex-fill border rounded py-1 px-2 text-center fs-11 fw-semibold">Projects</a>#}
+{#                                        <a href="javascript:void(0);" class="flex-fill border rounded py-1 px-2 text-center fs-11 fw-semibold">Leads</a>#}
+{#                                        <a href="javascript:void(0);" class="flex-fill border rounded py-1 px-2 text-center fs-11 fw-semibold">Contacts</a>#}
+{#                                        <a href="javascript:void(0);" class="flex-fill border rounded py-1 px-2 text-center fs-11 fw-semibold">Inbox</a>#}
+{#                                        <a href="javascript:void(0);" class="flex-fill border rounded py-1 px-2 text-center fs-11 fw-semibold">Invoices</a>#}
+{#                                        <a href="javascript:void(0);" class="flex-fill border rounded py-1 px-2 text-center fs-11 fw-semibold">Tasks</a>#}
+{#                                        <a href="javascript:void(0);" class="flex-fill border rounded py-1 px-2 text-center fs-11 fw-semibold">Customers</a>#}
+{#                                        <a href="javascript:void(0);" class="flex-fill border rounded py-1 px-2 text-center fs-11 fw-semibold">Notes</a>#}
+{#                                        <a href="javascript:void(0);" class="flex-fill border rounded py-1 px-2 text-center fs-11 fw-semibold">Affiliate</a>#}
+{#                                        <a href="javascript:void(0);" class="flex-fill border rounded py-1 px-2 text-center fs-11 fw-semibold">Storage</a>#}
+{#                                        <a href="javascript:void(0);" class="flex-fill border rounded py-1 px-2 text-center fs-11 fw-semibold">Calendar</a>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="dropdown-divider"></div>#}
+{#                                <div class="recent-result px-4 py-2">#}
+{#                                    <h4 class="fs-13 fw-normal text-gray-600 mb-3">Recnet <span class="badge small bg-gray-200 rounded ms-1 text-dark">3</span></h4>#}
+{#                                    <div class="d-flex align-items-center justify-content-between mb-4">#}
+{#                                        <div class="d-flex align-items-center gap-3">#}
+{#                                            <div class="avatar-text rounded">#}
+{#                                                <i class="feather-airplay"></i>#}
+{#                                            </div>#}
+{#                                            <div>#}
+{#                                                <a href="javascript:void(0);" class="font-body fw-bold d-block mb-1">CRM dashboard redesign</a>#}
+{#                                                <p class="fs-11 text-muted mb-0">Home / project / crm</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div>#}
+{#                                            <a href="javascript:void(0);" class="badge border rounded text-dark">/<i class="feather-command ms-1 fs-10"></i></a>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="d-flex align-items-center justify-content-between mb-4">#}
+{#                                        <div class="d-flex align-items-center gap-3">#}
+{#                                            <div class="avatar-text rounded">#}
+{#                                                <i class="feather-file-plus"></i>#}
+{#                                            </div>#}
+{#                                            <div>#}
+{#                                                <a href="javascript:void(0);" class="font-body fw-bold d-block mb-1">Create new document</a>#}
+{#                                                <p class="fs-11 text-muted mb-0">Home / tasks / docs</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div>#}
+{#                                            <a href="javascript:void(0);" class="badge border rounded text-dark">N /<i class="feather-command ms-1 fs-10"></i></a>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="d-flex align-items-center justify-content-between">#}
+{#                                        <div class="d-flex align-items-center gap-3">#}
+{#                                            <div class="avatar-text rounded">#}
+{#                                                <i class="feather-user-plus"></i>#}
+{#                                            </div>#}
+{#                                            <div>#}
+{#                                                <a href="javascript:void(0);" class="font-body fw-bold d-block mb-1">Invite project colleagues</a>#}
+{#                                                <p class="fs-11 text-muted mb-0">Home / project / invite</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div>#}
+{#                                            <a href="javascript:void(0);" class="badge border rounded text-dark">P /<i class="feather-command ms-1 fs-10"></i></a>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="dropdown-divider my-3"></div>#}
+{#                                <div class="users-result px-4 py-2">#}
+{#                                    <h4 class="fs-13 fw-normal text-gray-600 mb-3">Users <span class="badge small bg-gray-200 rounded ms-1 text-dark">5</span></h4>#}
+{#                                    <div class="d-flex align-items-center justify-content-between mb-4">#}
+{#                                        <div class="d-flex align-items-center gap-3">#}
+{#                                            <div class="avatar-image rounded">#}
+{#                                                <img src="{% static 'assets/images/avatar/1.png' %}" alt="" class="img-fluid">#}
+{#                                            </div>#}
+{#                                            <div>#}
+{#                                                <a href="javascript:void(0);" class="font-body fw-bold d-block mb-1">{{ request.user.profile.full_name }}</a>#}
+{#                                                <p class="fs-11 text-muted mb-0">{{ request.user.profile.position.description }}</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <a href="javascript:void(0);" class="avatar-text avatar-md">#}
+{#                                            <i class="feather-chevron-right"></i>#}
+{#                                        </a>#}
+{#                                    </div>#}
+{#                                    <div class="d-flex align-items-center justify-content-between mb-4">#}
+{#                                        <div class="d-flex align-items-center gap-3">#}
+{#                                            <div class="avatar-image rounded">#}
+{#                                                <img src="{% static 'assets/images/avatar/2.png' %}" alt="" class="img-fluid">#}
+{#                                            </div>#}
+{#                                            <div>#}
+{#                                                <a href="javascript:void(0);" class="font-body fw-bold d-block mb-1">Green Cute</a>#}
+{#                                                <p class="fs-11 text-muted mb-0">green.cute@outlook.com</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <a href="javascript:void(0);" class="avatar-text avatar-md">#}
+{#                                            <i class="feather-chevron-right"></i>#}
+{#                                        </a>#}
+{#                                    </div>#}
+{#                                    <div class="d-flex align-items-center justify-content-between mb-4">#}
+{#                                        <div class="d-flex align-items-center gap-3">#}
+{#                                            <div class="avatar-image rounded">#}
+{#                                                <img src="{% static 'assets/images/avatar/3.png' %}" alt="" class="img-fluid">#}
+{#                                            </div>#}
+{#                                            <div>#}
+{#                                                <a href="javascript:void(0);" class="font-body fw-bold d-block mb-1">Malanie Hanvey</a>#}
+{#                                                <p class="fs-11 text-muted mb-0">malanie.anvey@outlook.com</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <a href="javascript:void(0);" class="avatar-text avatar-md">#}
+{#                                            <i class="feather-chevron-right"></i>#}
+{#                                        </a>#}
+{#                                    </div>#}
+{#                                    <div class="d-flex align-items-center justify-content-between mb-4">#}
+{#                                        <div class="d-flex align-items-center gap-3">#}
+{#                                            <div class="avatar-image rounded">#}
+{#                                                <img src="{% static 'assets/images/avatar/4.png' %}" alt="" class="img-fluid">#}
+{#                                            </div>#}
+{#                                            <div>#}
+{#                                                <a href="javascript:void(0);" class="font-body fw-bold d-block mb-1">Kenneth Hune</a>#}
+{#                                                <p class="fs-11 text-muted mb-0">kenth.hune@outlook.com</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <a href="javascript:void(0);" class="avatar-text avatar-md">#}
+{#                                            <i class="feather-chevron-right"></i>#}
+{#                                        </a>#}
+{#                                    </div>#}
+{#                                    <div class="d-flex align-items-center justify-content-between mb-0">#}
+{#                                        <div class="d-flex align-items-center gap-3">#}
+{#                                            <div class="avatar-image rounded">#}
+{#                                                <img src="{% static 'assets/images/avatar/5.png' %}" alt="" class="img-fluid">#}
+{#                                            </div>#}
+{#                                            <div>#}
+{#                                                <a href="javascript:void(0);" class="font-body fw-bold d-block mb-1">Archie Cantones</a>#}
+{#                                                <p class="fs-11 text-muted mb-0">archie.cones@outlook.com</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <a href="javascript:void(0);" class="avatar-text avatar-md">#}
+{#                                            <i class="feather-chevron-right"></i>#}
+{#                                        </a>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="dropdown-divider my-3"></div>#}
+{#                                <div class="file-result px-4 py-2">#}
+{#                                    <h4 class="fs-13 fw-normal text-gray-600 mb-3">Files <span class="badge small bg-gray-200 rounded ms-1 text-dark">3</span></h4>#}
+{#                                    <div class="d-flex align-items-center justify-content-between mb-4">#}
+{#                                        <div class="d-flex align-items-center gap-3">#}
+{#                                            <div class="avatar-image bg-gray-200 rounded">#}
+{#                                                <img src="{% static 'assets/images/file-icons/css.png' %}" alt="" class="img-fluid">#}
+{#                                            </div>#}
+{#                                            <div>#}
+{#                                                <a href="javascript:void(0);" class="font-body fw-bold d-block mb-1">Project Style CSS</a>#}
+{#                                                <p class="fs-11 text-muted mb-0">05.74 MB</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <a href="javascript:void(0);" class="avatar-text avatar-md">#}
+{#                                            <i class="feather-download"></i>#}
+{#                                        </a>#}
+{#                                    </div>#}
+{#                                    <div class="d-flex align-items-center justify-content-between mb-4">#}
+{#                                        <div class="d-flex align-items-center gap-3">#}
+{#                                            <div class="avatar-image bg-gray-200 rounded">#}
+{#                                                <img src="{% static 'assets/images/file-icons/zip.png' %}" alt="" class="img-fluid">#}
+{#                                            </div>#}
+{#                                            <div>#}
+{#                                                <a href="javascript:void(0);" class="font-body fw-bold d-block mb-1">Dashboard Project Zip</a>#}
+{#                                                <p class="fs-11 text-muted mb-0">46.83 MB</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <a href="javascript:void(0);" class="avatar-text avatar-md">#}
+{#                                            <i class="feather-download"></i>#}
+{#                                        </a>#}
+{#                                    </div>#}
+{#                                    <div class="d-flex align-items-center justify-content-between mb-0">#}
+{#                                        <div class="d-flex align-items-center gap-3">#}
+{#                                            <div class="avatar-image bg-gray-200 rounded">#}
+{#                                                <img src="{% static 'assets/images/file-icons/pdf.png' %}" alt="" class="img-fluid">#}
+{#                                            </div>#}
+{#                                            <div>#}
+{#                                                <a href="javascript:void(0);" class="font-body fw-bold d-block mb-1">Project Document PDF</a>#}
+{#                                                <p class="fs-11 text-muted mb-0">12.85 MB</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <a href="javascript:void(0);" class="avatar-text avatar-md">#}
+{#                                            <i class="feather-download"></i>#}
+{#                                        </a>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="dropdown-divider mt-3 mb-0"></div>#}
+{#                                <a href="javascript:void(0);" class="p-3 fs-10 fw-bold text-uppercase text-center d-block">Loar More</a>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+<!--                    <div class="dropdown nxl-h-item nxl-header-language d-none d-sm-flex">-->
+<!--                        <a href="javascript:void(0);" class="nxl-head-link me-0 nxl-language-link" data-bs-toggle="dropdown" data-bs-auto-close="outside">-->
+<!--                            <img src="{% static 'assets/vendors/img/flags/4x3/us.svg' %}" alt="" class="img-fluid wd-20">-->
+<!--                        </a>-->
+<!--                        <div class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-language-dropdown">-->
+<!--                            <div class="dropdown-divider mt-0"></div>-->
+<!--                            <div class="language-items-wrapper">-->
+<!--                                <div class="select-language px-4 py-2 hstack justify-content-between gap-4">-->
+<!--                                    <div class="lh-lg">-->
+<!--                                        <h6 class="mb-0">Select Language</h6>-->
+<!--                                        <p class="fs-11 text-muted mb-0">3 languages avaiable!</p>-->
+<!--                                    </div>-->
+<!--                                    <a href="javascript:void(0);" class="avatar-text avatar-md" data-bs-toggle="tooltip" title="Add Language">-->
+<!--                                        <i class="feather-plus"></i>-->
+<!--                                    </a>-->
+<!--                                </div>-->
+<!--                                <div class="dropdown-divider"></div>-->
+<!--                                <div class="row px-4 pt-3">-->
+<!--                                    <div class="col-sm-4 col-6 language_select">-->
+<!--                                        <a href="javascript:void(0);" class="d-flex align-items-center gap-2">-->
+<!--                                            <div class="avatar-image avatar-sm"><img src="{% static 'assets/vendors/img/flags/1x1/sa.svg' %}" alt="" class="img-fluid"></div>-->
+<!--                                            <span>Arabic</span>-->
+<!--                                        </a>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-sm-4 col-6 language_select">-->
+<!--                                        <a href="javascript:void(0);" class="d-flex align-items-center gap-2">-->
+<!--                                            <div class="avatar-image avatar-sm"><img src="{% static 'assets/vendors/img/flags/1x1/bd.svg' %}" alt="" class="img-fluid"></div>-->
+<!--                                            <span>Bengali</span>-->
+<!--                                        </a>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-sm-4 col-6 language_select active">-->
+<!--                                        <a href="javascript:void(0);" class="d-flex align-items-center gap-2">-->
+<!--                                            <div class="avatar-image avatar-sm"><img src="{% static 'assets/vendors/img/flags/1x1/us.svg' %}" alt="" class="img-fluid"></div>-->
+<!--                                            <span>English</span>-->
+<!--                                        </a>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <div class="nxl-h-item d-none d-sm-flex">
+                        <div class="full-screen-switcher">
+                            <a href="javascript:void(0);" class="nxl-head-link me-0" onclick="$('body').fullScreenHelper('toggle');">
+                                <i class="feather-maximize maximize"></i>
+                                <i class="feather-minimize minimize"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="nxl-h-item dark-light-theme">
+                        <a href="javascript:void(0);" class="nxl-head-link me-0 dark-button">
+                            <i class="feather-moon"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="nxl-head-link me-0 light-button" style="display: none;">
+                            <i class="feather-sun"></i>
+                        </a>
+                    </div>
+{#                    <div class="dropdown nxl-h-item">#}
+{#                        <a href="javascript:void(0);" class="nxl-head-link me-0" data-bs-toggle="dropdown" role="button" data-bs-auto-close="outside">#}
+{#                            <i class="feather-clock"></i>#}
+{#                            <span class="badge bg-success nxl-h-badge">2</span>#}
+{#                        </a>#}
+{#                        <div class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-timesheets-menu">#}
+{#                            <div class="d-flex justify-content-between align-items-center timesheets-head">#}
+{#                                <h6 class="fw-bold text-dark mb-0">Muhlatlar</h6>#}
+{#                                <a href="javascript:void(0);" class="fs-11 text-success text-end ms-auto" data-bs-toggle="tooltip" title="Upcomming Timers">#}
+{#                                    <i class="feather-clock"></i>#}
+{#                                    <span>3 Upcomming</span>#}
+{#                                </a>#}
+{#                            </div>#}
+{#                            <div class="d-flex justify-content-between align-items-center flex-column timesheets-body">#}
+{#                                <i class="feather-clock fs-1 mb-4"></i>#}
+{#                                <p class="text-muted">No started timers found yes!</p>#}
+{#                                <a href="javascript:void(0);" class="btn btn-sm btn-primary">Started Timer</a>#}
+{#                            </div>#}
+{#                            <div class="text-center timesheets-footer">#}
+{#                                <a href="javascript:void(0);" class="fs-13 fw-semibold text-dark">Barcha muhlatlar</a>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+                    <div class="dropdown nxl-h-item">
+                    {% if expired_tasks %}
+                        <a class="nxl-head-link" data-bs-toggle="dropdown" href="#" role="button" data-bs-auto-close="outside">
+                            <i class="feather-clock"></i>
+                            <span class="badge bg-danger nxl-h-badge">{{ expired_tasks|length }}</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-notifications-menu">
+                            <div class="d-flex justify-content-between align-items-center notifications-head">
+                                <h6 class="fw-bold text-dark mb-0">Muhlati tugagan topshiriqlar</h6>
+                                <a href="javascript:void(0);" class="fs-11 text-success text-end ms-auto" data-bs-toggle="tooltip" title="Barchasi o'qildi">
+                                    <i class="feather-clock"></i>
+{#                                    <span>Barchasi o'qildi</span>#}
+                                </a>
+                            </div>
+                            {% for expired_task in expired_tasks %}
+                            <div class="notifications-item">
+<!--                                <img src="{% static 'assets/images/avatar/4.png' %}" alt="" class="rounded me-3 border">-->
+                                <div class="notifications-desc">
+                                    <a href="javascript:void(0);" data-bs-toggle="offcanvas" data-bs-target="#tasksDetailsOffcanvas{{expired_task.id}}" class="font-body text-truncate-2-line"> <span class="fw-semibold text-dark">{{ expired_task.title }}</span> {{ expired_task.description }}</a>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="notifications-date text-muted border-bottom border-bottom-dashed">{{ expired_task.deadline|date:'d.m.Y H:i' }}</div>
+                                        <div class="d-flex align-items-center float-end gap-2">
+{#                                            <a href="javascript:void(0);" class="d-block wd-8 ht-8 rounded-circle bg-gray-300" data-bs-toggle="tooltip" title="Make as Read"></a>#}
+{#                                            <a href="javascript:void(0);" class="text-danger" data-bs-toggle="tooltip" title="Remove">#}
+{#                                                <i class="feather-x fs-12"></i>#}
+{#                                            </a>#}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="text-center notifications-footer">
+                                <a href="javascript:void(0);" class="fs-13 fw-semibold text-dark">Barchasi</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="dropdown nxl-h-item">
+                        <a class="nxl-head-link me-3" data-bs-toggle="dropdown" href="#" role="button" data-bs-auto-close="outside">
+                            <i class="feather-bell"></i>
+                        {% if messages|length != 0 or deadline_ext_requests|length != 0 %}
+                            <span class="badge bg-danger nxl-h-badge">{{ messages|add_length:deadline_ext_requests }}</span>
+                        {% endif %}
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-notifications-menu">
+                            <div class="d-flex justify-content-between align-items-center notifications-head">
+                                <h6 class="fw-bold text-dark mb-0">Bildirishnomalar</h6>
+                                <a href="javascript:void(0);" class="fs-11 text-success text-end ms-auto" data-bs-toggle="tooltip" title="Barchasi o'qildi">
+                                    <i class="feather-check"></i>
+                                    <span>Barchasi o'qildi</span>
+                                </a>
+                            </div>
+                            {% for DER in deadline_ext_requests %}
+                            <div class="notifications-item">
+<!--                                <img src="{% static 'assets/images/avatar/2.png' %}" alt="" class="rounded me-3 border">-->
+                                <div class="notifications-desc">
+                                    {% if request.user.profile.role == 'assigner' %}
+                                    <a href="javascript:void(0);" class="font-body text-truncate-2-line deadline-ext-set" data-bs-toggle="modal" data-bs-target="#deadlineExtensionSet" data-id="{{ DER.id }}"> <span class="fw-semibold text-dark">{{ DER.requester }}</span>  №{{ DER.task.id }} topshiriq uchun qo'shimcha muhlat so'ramoqda.</a>
+                                    {% elif request.user.profile.role == 'performer' %}
+                                        {% if DER.status == 'in_progress' %}
+                                            <a href="javascript:void(0);" class="font-body text-truncate-2-line"> <span class="fw-semibold text-dark">№{{ DER.task.id }}</span> topshiriq uchun qo'shimcha muhlat so'rovi yuborildi.</a>
+                                        {% elif DER.status == 'approved' %}
+                                            <a href="javascript:void(0);" class="font-body text-truncate-2-line"> <span class="fw-semibold text-dark">№{{ DER.task.id }}</span> topshiriq uchun {{ DER.accepted_deadline|date:'d.m.Y H:i'}} gacha muhlat berildi.</a>
+                                        {% elif DER.status == 'rejected' %}
+                                            <a href="javascript:void(0);" class="font-body text-truncate-2-line"> <span class="fw-semibold text-dark">№{{ DER.task.id }}</span> topshiriq uchun qo'shimcha muhlat so'rovi rad etildi.</a>
+                                        {% endif %}
+                                    {% endif %}
+
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="notifications-date text-muted border-bottom border-bottom-dashed">{{ DER.requested_at|date:'d.m.Y H:i' }}</div>
+                                        <div class="d-flex align-items-center float-end gap-2">
+                                            <a href="javascript:void(0);" class="d-block wd-8 ht-8 rounded-circle bg-gray-300" data-bs-toggle="tooltip" title="O'qildi"></a>
+                                            <a href="javascript:void(0);" class="text-danger" data-bs-toggle="tooltip" title="O'chirish">
+                                                <i class="feather-x fs-12"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+
+                            {% for msg in messages %}
+                            <div class="notifications-item">
+                                <img src="{% static 'assets/images/avatar/2.png' %}" alt="" class="rounded me-3 border">
+                                <div class="notifications-desc">
+                                    <a href="javascript:void(0);" class="font-body text-truncate-2-line"> <span class="fw-semibold text-dark">Yangi topshiriq</span> Sizga yangi topshiriq biriktirildi!</a>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="notifications-date text-muted border-bottom border-bottom-dashed">2 daqiqa avval</div>
+                                        <div class="d-flex align-items-center float-end gap-2">
+                                            <a href="javascript:void(0);" class="d-block wd-8 ht-8 rounded-circle bg-gray-300" data-bs-toggle="tooltip" title="Make as Read"></a>
+                                            <a href="javascript:void(0);" class="text-danger" data-bs-toggle="tooltip" title="Remove">
+                                                <i class="feather-x fs-12"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="text-center notifications-footer">
+                                <a href="javascript:void(0);" class="fs-13 fw-semibold text-dark">Barcha bildirishnomalar</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropdown nxl-h-item">
+                        <a href="javascript:void(0);" data-bs-toggle="dropdown" role="button" data-bs-auto-close="outside">
+                            <img src="{{ request.user.profile.photo_url|default:'/static/assets/images/avatar/1.png' }}" alt="user-image" class="img-fluid user-avtar me-0">
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-user-dropdown">
+                            <div class="dropdown-header">
+                                <div class="d-flex align-items-center">
+                                    <img src="{{ request.user.profile.photo_url|default:'/static/assets/images/avatar/1.png' }}" alt="user-image" class="img-fluid user-avtar">
+                                    <div>
+                                        <h6 class="text-dark mb-0">{{ request.user.profile.full_name }}<span class="badge bg-soft-success text-success ms-1">PRO</span></h6>
+                                        <span class="fs-12 fw-medium text-muted">{{ request.user.profile.position }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="dropdown">
+                                    <span class="hstack">
+                                        <i class="wd-10 ht-10 border border-2 border-gray-1 bg-success rounded-circle me-2"></i>
+                                        <span>Active</span>
+                                    </span>
+                                    <i class="feather-chevron-right ms-auto me-0"></i>
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <span class="hstack">
+                                            <i class="wd-10 ht-10 border border-2 border-gray-1 bg-warning rounded-circle me-2"></i>
+                                            <span>Always</span>
+                                        </span>
+                                    </a>
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <span class="hstack">
+                                            <i class="wd-10 ht-10 border border-2 border-gray-1 bg-success rounded-circle me-2"></i>
+                                            <span>Active</span>
+                                        </span>
+                                    </a>
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <span class="hstack">
+                                            <i class="wd-10 ht-10 border border-2 border-gray-1 bg-danger rounded-circle me-2"></i>
+                                            <span>Bussy</span>
+                                        </span>
+                                    </a>
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <span class="hstack">
+                                            <i class="wd-10 ht-10 border border-2 border-gray-1 bg-info rounded-circle me-2"></i>
+                                            <span>Inactive</span>
+                                        </span>
+                                    </a>
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <span class="hstack">
+                                            <i class="wd-10 ht-10 border border-2 border-gray-1 bg-dark rounded-circle me-2"></i>
+                                            <span>Disabled</span>
+                                        </span>
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <span class="hstack">
+                                            <i class="wd-10 ht-10 border border-2 border-gray-1 bg-primary rounded-circle me-2"></i>
+                                            <span>Cutomization</span>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+<!--                            <div class="dropdown">-->
+<!--                                <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="dropdown">-->
+<!--                                    <span class="hstack">-->
+<!--                                        <i class="feather-dollar-sign me-2"></i>-->
+<!--                                        <span>Subscriptions</span>-->
+<!--                                    </span>-->
+<!--                                    <i class="feather-chevron-right ms-auto me-0"></i>-->
+<!--                                </a>-->
+<!--                                <div class="dropdown-menu">-->
+<!--                                    <a href="javascript:void(0);" class="dropdown-item">-->
+<!--                                        <span class="hstack">-->
+<!--                                            <i class="wd-5 ht-5 bg-gray-500 rounded-circle me-3"></i>-->
+<!--                                            <span>Plan</span>-->
+<!--                                        </span>-->
+<!--                                    </a>-->
+<!--                                    <a href="javascript:void(0);" class="dropdown-item">-->
+<!--                                        <span class="hstack">-->
+<!--                                            <i class="wd-5 ht-5 bg-gray-500 rounded-circle me-3"></i>-->
+<!--                                            <span>Billings</span>-->
+<!--                                        </span>-->
+<!--                                    </a>-->
+<!--                                    <a href="javascript:void(0);" class="dropdown-item">-->
+<!--                                        <span class="hstack">-->
+<!--                                            <i class="wd-5 ht-5 bg-gray-500 rounded-circle me-3"></i>-->
+<!--                                            <span>Referrals</span>-->
+<!--                                        </span>-->
+<!--                                    </a>-->
+<!--                                    <a href="javascript:void(0);" class="dropdown-item">-->
+<!--                                        <span class="hstack">-->
+<!--                                            <i class="wd-5 ht-5 bg-gray-500 rounded-circle me-3"></i>-->
+<!--                                            <span>Payments</span>-->
+<!--                                        </span>-->
+<!--                                    </a>-->
+<!--                                    <a href="javascript:void(0);" class="dropdown-item">-->
+<!--                                        <span class="hstack">-->
+<!--                                            <i class="wd-5 ht-5 bg-gray-500 rounded-circle me-3"></i>-->
+<!--                                            <span>Statements</span>-->
+<!--                                        </span>-->
+<!--                                    </a>-->
+<!--                                    <div class="dropdown-divider"></div>-->
+<!--                                    <a href="javascript:void(0);" class="dropdown-item">-->
+<!--                                        <span class="hstack">-->
+<!--                                            <i class="wd-5 ht-5 bg-gray-500 rounded-circle me-3"></i>-->
+<!--                                            <span>Subscriptions</span>-->
+<!--                                        </span>-->
+<!--                                    </a>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="dropdown-divider"></div>-->
+                            <a href="{% url 'profiles:my_profile' %}" class="dropdown-item">
+                                <i class="feather-user"></i>
+                                <span>Profilni ko'rish</span>
+                            </a>
+<!--                            <a href="javascript:void(0);" class="dropdown-item">-->
+<!--                                <i class="feather-activity"></i>-->
+<!--                                <span>Activity Feed</span>-->
+<!--                            </a>-->
+<!--                            <a href="javascript:void(0);" class="dropdown-item">-->
+<!--                                <i class="feather-dollar-sign"></i>-->
+<!--                                <span>Billing Details</span>-->
+<!--                            </a>-->
+<!--                            <a href="javascript:void(0);" class="dropdown-item">-->
+<!--                                <i class="feather-bell"></i>-->
+<!--                                <span>Notifications</span>-->
+<!--                            </a>-->
+                            <a href="javascript:void(0);" class="dropdown-item">
+                                <i class="feather-settings"></i>
+                                <span>Sozlamalar</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="{% url 'auths:logout' %}" class="dropdown-item">
+                                <i class="feather-log-out"></i>
+                                <span>Chiqish</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--! [End] Header Right !-->
+        </div>
+    </header>
+    <!--! ================================================================ !-->
+    <!--! [End] Header !-->
+    <!--! ================================================================ !-->
+    <!--! [Start] Main Content !-->
+    <!--! ================================================================ !-->
+
+    {% block content %}
+    {% endblock %}
+    <!--! ================================================================ !-->
+    <!--! [End] Main Content !-->
+    <!--! ================================================================ !-->
+
+    <!--! [Start] Search Modal !-->
+    <!--! ================================================================ !-->
+    <div class="modal fade-scale" id="searchModal" aria-hidden="true" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-top modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header search-form py-0">
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="feather-search fs-4 text-muted"></i>
+                        </span>
+                        <input type="text" class="form-control search-input-field" placeholder="Search...">
+                        <span class="input-group-text">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="searching-for mb-5">
+                        <h4 class="fs-13 fw-normal text-gray-600 mb-3">I'm searching for...</h4>
+                        <div class="row g-1">
+                            <div class="col-md-4 col-xl-2">
+                                <a href="javascript:void(0);" class="d-flex align-items-center gap-2 px-3 lh-lg border rounded-pill">
+                                    <i class="feather-compass"></i>
+                                    <span>Recent</span>
+                                </a>
+                            </div>
+                            <div class="col-md-4 col-xl-2">
+                                <a href="javascript:void(0);" class="d-flex align-items-center gap-2 px-3 lh-lg border rounded-pill">
+                                    <i class="feather-command"></i>
+                                    <span>Command</span>
+                                </a>
+                            </div>
+                            <div class="col-md-4 col-xl-2">
+                                <a href="javascript:void(0);" class="d-flex align-items-center gap-2 px-3 lh-lg border rounded-pill">
+                                    <i class="feather-users"></i>
+                                    <span>Peoples</span>
+                                </a>
+                            </div>
+                            <div class="col-md-4 col-xl-2">
+                                <a href="javascript:void(0);" class="d-flex align-items-center gap-2 px-3 lh-lg border rounded-pill">
+                                    <i class="feather-file"></i>
+                                    <span>Files</span>
+                                </a>
+                            </div>
+                            <div class="col-md-4 col-xl-2">
+                                <a href="javascript:void(0);" class="d-flex align-items-center gap-2 px-3 lh-lg border rounded-pill">
+                                    <i class="feather-video"></i>
+                                    <span>Medias</span>
+                                </a>
+                            </div>
+                            <div class="col-md-4 col-xl-2">
+                                <a href="javascript:void(0);" class="d-flex align-items-center gap-2 px-3 lh-lg border rounded-pill">
+                                    <span>More</span>
+                                    <i class="feather-chevron-down"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="recent-result mb-5">
+                        <h4 class="fs-13 fw-normal text-gray-600 mb-3">Recnet <span class="badge small rounded ms-1 text-dark">3</span></h4>
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <a href="javascript:void(0);" class="d-flex align-items-start gap-3">
+                                <i class="feather-airplay fs-5"></i>
+                                <div class="fs-13 fw-semibold">CRM dashboard redesign</div>
+                            </a>
+                            <a href="javascript:void(0);" class="badge border rounded text-dark">/<i class="feather-command ms-1"></i></a>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <a href="javascript:void(0);" class="d-flex align-items-start gap-3">
+                                <i class="feather-file-plus fs-5"></i>
+                                <div class="fs-13 fw-semibold">Create new eocument</div>
+                            </a>
+                            <a href="javascript:void(0);" class="badge border rounded text-dark">N /<i class="feather-command ms-1"></i></a>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <a href="javascript:void(0);" class="d-flex align-items-start gap-3">
+                                <i class="feather-user-plus fs-5"></i>
+                                <div class="fs-13 fw-semibold">Invite project colleagues</div>
+                            </a>
+                            <a href="javascript:void(0);" class="badge border rounded text-dark">P /<i class="feather-command ms-1"></i></a>
+                        </div>
+                    </div>
+                    <div class="command-result mb-5">
+                        <h4 class="fs-13 fw-normal text-gray-600 mb-3">Command <span class="badge small rounded ms-1 text-dark">5</span></h4>
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <a href="javascript:void(0);" class="d-flex align-items-start gap-3">
+                                <i class="feather-user fs-5"></i>
+                                <div class="fs-13 fw-semibold">My profile</div>
+                            </a>
+                            <a href="javascript:void(0);" class="badge border rounded text-dark">P /<i class="feather-command ms-1"></i></a>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <a href="javascript:void(0);" class="d-flex align-items-start gap-3">
+                                <i class="feather-users fs-5"></i>
+                                <div class="fs-13 fw-semibold">Team profile</div>
+                            </a>
+                            <a href="javascript:void(0);" class="badge border rounded text-dark">T /<i class="feather-command ms-1"></i></a>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <a href="javascript:void(0);" class="d-flex align-items-start gap-3">
+                                <i class="feather-user-plus fs-5"></i>
+                                <div class="fs-13 fw-semibold">Invite colleagues</div>
+                            </a>
+                            <a href="javascript:void(0);" class="badge border rounded text-dark">I /<i class="feather-command ms-1"></i></a>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <a href="javascript:void(0);" class="d-flex align-items-start gap-3">
+                                <i class="feather-briefcase fs-5"></i>
+                                <div class="fs-13 fw-semibold">Create new project</div>
+                            </a>
+                            <a href="javascript:void(0);" class="badge border rounded text-dark">CP /<i class="feather-command ms-1"></i></a>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <a href="javascript:void(0);" class="d-flex align-items-start gap-3">
+                                <i class="feather-life-buoy fs-5"></i>
+                                <div class="fs-13 fw-semibold">Support center</div>
+                            </a>
+                            <a href="javascript:void(0);" class="badge border rounded text-dark">SC /<i class="feather-command ms-1"></i></a>
+                        </div>
+                    </div>
+                    <div class="file-result mb-4">
+                        <h4 class="fs-13 fw-normal text-gray-600 mb-3">Files <span class="badge small rounded ms-1 text-dark">3</span></h4>
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <a href="javascript:void(0);" class="d-flex align-items-start gap-3">
+                                <i class="feather-folder-plus fs-5"></i>
+                                <div class="fs-13 fw-semibold">CRM Desing Project <span class="fs-12 fw-normal text-muted">(56.74 MB)</span></div>
+                            </a>
+                            <a href="javascript:void(0);" class="file-download"><i class="feather-download"></i></a>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <a href="javascript:void(0);" class="d-flex align-items-start gap-3">
+                                <i class="feather-folder-plus fs-5"></i>
+                                <div class="fs-13 fw-semibold">Admin Dashboard Project <span class="fs-12 fw-normal text-muted">(46.83 MB)</span></div>
+                            </a>
+                            <a href="javascript:void(0);" class="file-download"><i class="feather-download"></i></a>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <a href="javascript:void(0);" class="d-flex align-items-start gap-3">
+                                <i class="feather-folder-plus fs-5"></i>
+                                <div class="fs-13 fw-semibold">CRM Dashboard Project <span class="fs-12 fw-normal text-muted">(68.59 MB)</span></div>
+                            </a>
+                            <a href="javascript:void(0);" class="file-download"><i class="feather-download"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--! ================================================================ !-->
+    <!--! [End] Search Modal !-->
+    <!--! ================================================================ !-->
+
+
+
+    <!--! [Start] Request task extention time !-->
+    <div class="modal fade" id="deadlineExtensionSet" tabindex="-1">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Qo'shimcha muddat berish</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="mb-4">
+                            <label class="form-label">So'ralgan muhlat</label>
+                            <div class="input-group date input-daterange">
+                                <input id="der_deadline" type="datetime-local" class="form-control" placeholder="gacha" name="new_deadline" autocomplete="off" required>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Sababi</label>
+                            <div class="input-group date input-daterange">
+                                <input id="der_reason" type="text" class="form-control" name="reason" autocomplete="off" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Tasdiqlash</button>
+                        <a id="reject_ext_deadline">
+                            <button type="button" class="btn btn-danger">Rad qilish</button>
+                        </a>
+                        <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Yopish</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--! [End] Add New task Modal !-->
+
+
+
+    <!--! ================================================================ !-->
+    <!--! [Start] Language Select !-->
+    <!--! ================================================================ !-->
+    <div class="modal fade-scale" id="languageSelectModal" aria-hidden="true" aria-labelledby="languageSelectModalLabel" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="languageSelectModalLabel">Select Language</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6 col-md-4 col-lg-3 language_select">
+                            <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
+                                <div class="avatar-image avatar-sm"><img src="{% static 'assets/vendors/img/flags/1x1/sa.svg' %}" alt="" class="img-fluid"></div>
+                                <span>Arabic </span>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-3 language_select">
+                            <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
+                                <div class="avatar-image avatar-sm"><img src="{% static 'assets/vendors/img/flags/1x1/bd.svg' %}" alt="" class="img-fluid"></div>
+                                <span>Bengali </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--! ================================================================ !-->
+    <!--! [End] Language Select !-->
+    <!--! ================================================================ !-->
+    <!--! ================================================================ !-->
+    <!--! BEGIN: Downloading Toast !-->
+    <!--! ================================================================ !-->
+    <div class="position-fixed" style="right: 5px; bottom: 5px; z-index: 999999">
+        <div id="toast" class="toast bg-black hide" data-bs-delay="3000" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header px-3 bg-transparent d-flex align-items-center justify-content-between border-bottom border-light border-opacity-10">
+                <div class="text-white mb-0 mr-auto">Downloading...</div>
+                <a href="javascript:void(0)" class="ms-2 mb-1 close fw-normal" data-bs-dismiss="toast" aria-label="Close">
+                    <span class="text-white">&times;</span>
+                </a>
+            </div>
+            <div class="toast-body p-3 text-white">
+                <h6 class="fs-13 text-white">Project.zip</h6>
+                <span class="text-light fs-11">4.2mb of 5.5mb</span>
+            </div>
+            <div class="toast-footer p-3 pt-0 border-top border-light border-opacity-10">
+                <div class="progress mt-3" style="height: 5px">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated w-75 bg-dark" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--! ================================================================ !-->
+    <!--! END: Downloading Toast !-->
+    <!--! ================================================================ !-->
+    <!--! ================================================================ !-->
+    <!--! BEGIN: Theme Customizer !-->
+    <!--! ================================================================ !-->
+    <div class="theme-customizer">
+        <div class="customizer-handle">
+            <a href="javascript:void(0);" class="cutomizer-open-trigger bg-primary">
+                <i class="feather-settings"></i>
+            </a>
+        </div>
+        <div class="customizer-sidebar-wrapper">
+            <div class="customizer-sidebar-header px-4 ht-80 border-bottom d-flex align-items-center justify-content-between">
+                <h5 class="mb-0">Dizayn sozlamalari</h5>
+                <a href="javascript:void(0);" class="cutomizer-close-trigger d-flex">
+                    <i class="feather-x"></i>
+                </a>
+            </div>
+            <div class="customizer-sidebar-body position-relative p-4" data-scrollbar-target="#psScrollbarInit">
+                <!--! BEGIN: [Navigation] !-->
+                <div class="position-relative px-3 pb-3 pt-4 mt-3 mb-5 border border-gray-2 theme-options-set">
+                    <label class="py-1 px-2 fs-8 fw-bold text-uppercase text-muted text-spacing-2 bg-white border border-gray-2 position-absolute rounded-2 options-label" style="top: -12px">Menyu</label>
+                    <div class="row g-2 theme-options-items app-navigation" id="appNavigationList">
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-navigation-light" name="app-navigation" value="1" data-app-navigation="app-navigation-light" checked>
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-navigation-light">Light</label>
+                        </div>
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-navigation-dark" name="app-navigation" value="2" data-app-navigation="app-navigation-dark">
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-navigation-dark">Dark</label>
+                        </div>
+                    </div>
+                </div>
+                <!--! END: [Navigation] !-->
+                <!--! BEGIN: [Header] !-->
+                <div class="position-relative px-3 pb-3 pt-4 mt-3 mb-5 border border-gray-2 theme-options-set mt-5">
+                    <label class="py-1 px-2 fs-8 fw-bold text-uppercase text-muted text-spacing-2 bg-white border border-gray-2 position-absolute rounded-2 options-label" style="top: -12px">Header</label>
+                    <div class="row g-2 theme-options-items app-header" id="appHeaderList">
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-header-light" name="app-header" value="1" data-app-header="app-header-light" checked>
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-header-light">Light</label>
+                        </div>
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-header-dark" name="app-header" value="2" data-app-header="app-header-dark">
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-header-dark">Dark</label>
+                        </div>
+                    </div>
+                </div>
+                <!--! END: [Header] !-->
+                <!--! BEGIN: [Skins] !-->
+                <div class="position-relative px-3 pb-3 pt-4 mt-3 mb-5 border border-gray-2 theme-options-set">
+                    <label class="py-1 px-2 fs-8 fw-bold text-uppercase text-muted text-spacing-2 bg-white border border-gray-2 position-absolute rounded-2 options-label" style="top: -12px">Skins</label>
+                    <div class="row g-2 theme-options-items app-skin" id="appSkinList">
+                        <div class="col-6 text-center position-relative single-option light-button active">
+                            <input type="radio" class="btn-check" id="app-skin-light" name="app-skin" value="1" data-app-skin="app-skin-light">
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-skin-light">Light</label>
+                        </div>
+                        <div class="col-6 text-center position-relative single-option dark-button">
+                            <input type="radio" class="btn-check" id="app-skin-dark" name="app-skin" value="2" data-app-skin="app-skin-dark">
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-skin-dark">Dark</label>
+                        </div>
+                    </div>
+                </div>
+                <!--! END: [Skins] !-->
+                <!--! BEGIN: [Typography] !-->
+                <div class="position-relative px-3 pb-3 pt-4 mt-3 mb-0 border border-gray-2 theme-options-set">
+                    <label class="py-1 px-2 fs-8 fw-bold text-uppercase text-muted text-spacing-2 bg-white border border-gray-2 position-absolute rounded-2 options-label" style="top: -12px">Typography</label>
+                    <div class="row g-2 theme-options-items font-family" id="fontFamilyList">
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-font-family-lato" name="font-family" value="1" data-font-family="app-font-family-lato">
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-font-family-lato">Lato</label>
+                        </div>
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-font-family-rubik" name="font-family" value="2" data-font-family="app-font-family-rubik">
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-font-family-rubik">Rubik</label>
+                        </div>
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-font-family-inter" name="font-family" value="3" data-font-family="app-font-family-inter" checked>
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-font-family-inter">Inter</label>
+                        </div>
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-font-family-cinzel" name="font-family" value="4" data-font-family="app-font-family-cinzel">
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-font-family-cinzel">Cinzel</label>
+                        </div>
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-font-family-nunito" name="font-family" value="6" data-font-family="app-font-family-nunito">
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-font-family-nunito">Nunito</label>
+                        </div>
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-font-family-roboto" name="font-family" value="7" data-font-family="app-font-family-roboto">
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-font-family-roboto">Roboto</label>
+                        </div>
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-font-family-ubuntu" name="font-family" value="8" data-font-family="app-font-family-ubuntu">
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-font-family-ubuntu">Ubuntu</label>
+                        </div>
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-font-family-poppins" name="font-family" value="9" data-font-family="app-font-family-poppins">
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-font-family-poppins">Poppins</label>
+                        </div>
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-font-family-raleway" name="font-family" value="10" data-font-family="app-font-family-raleway">
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-font-family-raleway">Raleway</label>
+                        </div>
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-font-family-system-ui" name="font-family" value="11" data-font-family="app-font-family-system-ui">
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-font-family-system-ui">System UI</label>
+                        </div>
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-font-family-noto-sans" name="font-family" value="12" data-font-family="app-font-family-noto-sans">
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-font-family-noto-sans">Noto Sans</label>
+                        </div>
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-font-family-fira-sans" name="font-family" value="13" data-font-family="app-font-family-fira-sans">
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-font-family-fira-sans">Fira Sans</label>
+                        </div>
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-font-family-work-sans" name="font-family" value="14" data-font-family="app-font-family-work-sans">
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-font-family-work-sans">Work Sans</label>
+                        </div>
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-font-family-open-sans" name="font-family" value="15" data-font-family="app-font-family-open-sans">
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-font-family-open-sans">Open Sans</label>
+                        </div>
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-font-family-maven-pro" name="font-family" value="16" data-font-family="app-font-family-maven-pro">
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-font-family-maven-pro">Maven Pro</label>
+                        </div>
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-font-family-quicksand" name="font-family" value="17" data-font-family="app-font-family-quicksand">
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-font-family-quicksand">Quicksand</label>
+                        </div>
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-font-family-montserrat" name="font-family" value="18" data-font-family="app-font-family-montserrat">
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-font-family-montserrat">Montserrat</label>
+                        </div>
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-font-family-josefin-sans" name="font-family" value="19" data-font-family="app-font-family-josefin-sans">
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-font-family-josefin-sans">Josefin Sans</label>
+                        </div>
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-font-family-ibm-plex-sans" name="font-family" value="20" data-font-family="app-font-family-ibm-plex-sans">
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-font-family-ibm-plex-sans">IBM Plex Sans</label>
+                        </div>
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-font-family-source-sans-pro" name="font-family" value="5" data-font-family="app-font-family-source-sans-pro">
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-font-family-source-sans-pro">Source Sans Pro</label>
+                        </div>
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-font-family-montserrat-alt" name="font-family" value="21" data-font-family="app-font-family-montserrat-alt">
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-font-family-montserrat-alt">Montserrat Alt</label>
+                        </div>
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-font-family-roboto-slab" name="font-family" value="22" data-font-family="app-font-family-roboto-slab">
+                            <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-font-family-roboto-slab">Roboto Slab</label>
+                        </div>
+                    </div>
+                </div>
+                <!--! END: [Typography] !-->
+            </div>
+            <div class="customizer-sidebar-footer px-4 ht-60 border-top d-flex align-items-center gap-2">
+                <div class="flex-fill w-50">
+                    <a href="javascript:void(0);" class="btn btn-danger" data-style="reset-all-common-style">Reset</a>
+                </div>
+                <div class="flex-fill w-50">
+                    <a href="javascript:void(0);" class="btn btn-primary">Download</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% block page_js %}
+    {% endblock %}
+</body>
+
+</html>
