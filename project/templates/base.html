@@ -96,8 +96,9 @@
                             {%  if request.user.profile.role == "assigner" %}
                                 <li class="nxl-item"><a class="nxl-link" href="/tasks/">Mening topshiriqlarim</a></li>
 <!--                                <li class="nxl-item"><a class="nxl-link" href="/tasks/workers">Xodimlar bo'yicha</a></li>-->
-                            {%  endif %}
+                            {%  else %}
                             <li class="nxl-item"><a class="nxl-link" href="/tasks/">Bajarishim kerak</a></li>
+                            {% endif %}
 <!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/apps-storage.html">Storage</a></li>-->
 <!--                            <li class="nxl-item"><a class="nxl-link" href="../../../../Frontend/duralux-crm-admin-dashboard-bootstrap-template-2024-10-30-15-06-29-utc/client_version/duralux/html/crm/dist/templates/apps-calendar.html">Calendar</a></li>-->
                         </ul>
@@ -632,7 +633,7 @@
                             </div>
                             {% endfor %}
                             <div class="text-center notifications-footer">
-                                <a href="javascript:void(0);" class="fs-13 fw-semibold text-dark">Barchasi</a>
+                                <a href="/tasks/" class="fs-13 fw-semibold text-dark">Barchasi</a>
                             </div>
                         </div>
                     </div>

@@ -19,7 +19,7 @@ def deadline_extension_requests(request):
 
 def expired_tasks_notification(request):
     if request.user.is_authenticated:
-        expired_tasks = Task.objects.filter(deadline__lt=timezone.now()).exclude(status__in=['completed', 'approved'])
+        expired_tasks = Task.objects.filter(deadline__lt=timezone.now()).exclude(status__in=['submitted', 'approved'])
         return {'expired_tasks': expired_tasks}
     return {}
 

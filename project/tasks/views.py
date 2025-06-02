@@ -1,4 +1,6 @@
 from datetime import datetime
+
+from dateutil.relativedelta import relativedelta
 from django.utils import timezone
 from datetime import timedelta, date
 
@@ -60,7 +62,7 @@ class TaskListView(LoginRequiredMixin, ListView):
         worker_id = request.GET.get('worker_id')
         if status == 'expired':
             tasks = expired_tasks
-        elif status in ['in_progress', 'submitted']:
+        elif status in ['in_progress', 'submitted', 'approved']:
             tasks = tasks.filter(status=status)
         elif degree:
             tasks = tasks.filter(degree=degree)
@@ -139,10 +141,10 @@ def task_comment_view(request, task_id):
 
 def update_status_view(request, task_id):
     task = Task.objects.get(id=task_id)
-    if task.status == 'submitted':
-        task.status = 'in_progress'
-    else:
-        task.status = request.GET.get('status')
+    # if task.status == 'submitted':
+    #     task.status = 'in_progress'
+    # else:
+    task.status = request.GET.get('status')
     task.save()
     return JsonResponse({'status': task.status})
 
@@ -227,18 +229,30 @@ def reject_deadline_view(request, extension_id):
     return redirect('tasks:task_list')
 
 
+def set_expired_tasks():
+    expired_tasks = Task.objects.filter(deadline__lt=timezone.now()).exclude(status__in=['approved'])
+    for task in expired_tasks:
+        task.status = 'expired'
+        task.save()
+
+
 def dashboard_view(request):
-    tasks = Task.objects.filter(author__department=request.user.profile.department)
+    """Hozircha faqat oxirgi 30 kun uchun"""
+    today = timezone.now()
+    one_month_ago = today - relativedelta(months=1)
+    tasks = Task.objects.filter(author__department=request.user.profile.department,
+                                archived=False, deadline__range=(one_month_ago, today))
     todays_tasks = tasks.filter(deadline__date=date.today())
     todays_approved_tasks = tasks.filter(deadline__date=date.today(), status='approved')
     in_progress_tasks = tasks.filter(status='in_progress')
-    approved_tasks = tasks.filter(status='approved')
+    approved_tasks = Task.objects.filter(status='approved')
+    set_expired_tasks()
     expired_tasks = tasks.filter(status='expired')
     performers = Profile.objects.filter(department=request.user.profile.department).exclude(id=request.user.profile.id)
 
     for performer in performers:
-        total = Task.objects.filter(performers=performer).count()
-        approved = Task.objects.filter(performers=performer, status='approved').count()
+        total = Task.objects.filter(performers=performer, deadline__range=(one_month_ago, today)).count()
+        approved = Task.objects.filter(performers=performer, status='approved', deadline__range=(one_month_ago, today)).count()
         performer.task_completion_rate = round((approved / total) * 100, 1) if total > 0 else 0
         performer.total_tasks = total
         performer.approved_tasks = approved
@@ -258,7 +272,7 @@ def dashboard_view(request):
 
 
 def calendar_tasks_view(request):
-    tasks = Task.objects.filter(status='in_progress')
+    tasks = Task.objects.filter(status__in=['in_progress', 'expired'], archived=False)
     events = []
 
     for task in tasks:

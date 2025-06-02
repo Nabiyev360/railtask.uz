@@ -34,53 +34,53 @@
                             <div id="reportrange" class="reportrange-picker d-flex align-items-center">
                                 <span class="reportrange-picker-field"></span>
                             </div>
-                            <div class="dropdown filter-dropdown">
-                                <a class="btn btn-md btn-light-brand" data-bs-toggle="dropdown" data-bs-offset="0, 10" data-bs-auto-close="outside">
-                                    <i class="feather-filter me-2"></i>
-                                    <span>Filter</span>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <div class="dropdown-item">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="Role" checked="checked" />
-                                            <label class="custom-control-label c-pointer" for="Role">Role</label>
-                                        </div>
-                                    </div>
-                                    <div class="dropdown-item">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="Team" checked="checked" />
-                                            <label class="custom-control-label c-pointer" for="Team">Team</label>
-                                        </div>
-                                    </div>
-                                    <div class="dropdown-item">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="Email" checked="checked" />
-                                            <label class="custom-control-label c-pointer" for="Email">Email</label>
-                                        </div>
-                                    </div>
-                                    <div class="dropdown-item">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="Member" checked="checked" />
-                                            <label class="custom-control-label c-pointer" for="Member">Member</label>
-                                        </div>
-                                    </div>
-                                    <div class="dropdown-item">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="Recommendation" checked="checked" />
-                                            <label class="custom-control-label c-pointer" for="Recommendation">Recommendation</label>
-                                        </div>
-                                    </div>
-                                    <div class="dropdown-divider"></div>
-                                    <a href="javascript:void(0);" class="dropdown-item">
-                                        <i class="feather-plus me-3"></i>
-                                        <span>Create New</span>
-                                    </a>
-                                    <a href="javascript:void(0);" class="dropdown-item">
-                                        <i class="feather-filter me-3"></i>
-                                        <span>Manage Filter</span>
-                                    </a>
-                                </div>
-                            </div>
+<!--                            <div class="dropdown filter-dropdown">-->
+<!--                                <a class="btn btn-md btn-light-brand" data-bs-toggle="dropdown" data-bs-offset="0, 10" data-bs-auto-close="outside">-->
+<!--                                    <i class="feather-filter me-2"></i>-->
+<!--                                    <span>Filter</span>-->
+<!--                                </a>-->
+<!--                                <div class="dropdown-menu dropdown-menu-end">-->
+<!--                                    <div class="dropdown-item">-->
+<!--                                        <div class="custom-control custom-checkbox">-->
+<!--                                            <input type="checkbox" class="custom-control-input" id="Role" checked="checked" />-->
+<!--                                            <label class="custom-control-label c-pointer" for="Role">Role</label>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="dropdown-item">-->
+<!--                                        <div class="custom-control custom-checkbox">-->
+<!--                                            <input type="checkbox" class="custom-control-input" id="Team" checked="checked" />-->
+<!--                                            <label class="custom-control-label c-pointer" for="Team">Team</label>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="dropdown-item">-->
+<!--                                        <div class="custom-control custom-checkbox">-->
+<!--                                            <input type="checkbox" class="custom-control-input" id="Email" checked="checked" />-->
+<!--                                            <label class="custom-control-label c-pointer" for="Email">Email</label>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="dropdown-item">-->
+<!--                                        <div class="custom-control custom-checkbox">-->
+<!--                                            <input type="checkbox" class="custom-control-input" id="Member" checked="checked" />-->
+<!--                                            <label class="custom-control-label c-pointer" for="Member">Member</label>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="dropdown-item">-->
+<!--                                        <div class="custom-control custom-checkbox">-->
+<!--                                            <input type="checkbox" class="custom-control-input" id="Recommendation" checked="checked" />-->
+<!--                                            <label class="custom-control-label c-pointer" for="Recommendation">Recommendation</label>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="dropdown-divider"></div>-->
+<!--                                    <a href="javascript:void(0);" class="dropdown-item">-->
+<!--                                        <i class="feather-plus me-3"></i>-->
+<!--                                        <span>Create New</span>-->
+<!--                                    </a>-->
+<!--                                    <a href="javascript:void(0);" class="dropdown-item">-->
+<!--                                        <i class="feather-filter me-3"></i>-->
+<!--                                        <span>Manage Filter</span>-->
+<!--                                    </a>-->
+<!--                                </div>-->
+<!--                            </div>-->
                         </div>
                     </div>
                     <div class="d-md-none d-flex align-items-center">
@@ -134,9 +134,11 @@
                             <div class="card-body">
                                 <div class="d-flex align-items-start justify-content-between mb-4">
                                     <div class="d-flex gap-4 align-items-center">
-                                        <div class="avatar-text avatar-lg bg-gray-200">
-                                            <i class="feather-cast"></i>
-                                        </div>
+                                        <a href="/tasks/?status=in_progress">
+                                            <div class="avatar-text avatar-lg bg-gray-200">
+                                                <i class="feather-cast"></i>
+                                            </div>
+                                        </a>
                                         <div>
                                             <div class="fs-4 fw-bold text-dark"><span class="counter">{{ in_progress_tasks.count }}</span></div>
                                             <h3 class="fs-13 fw-semibold text-truncate-1-line">Bajarilmoqda</h3>
@@ -168,9 +170,11 @@
                             <div class="card-body">
                                 <div class="d-flex align-items-start justify-content-between mb-4">
                                     <div class="d-flex gap-4 align-items-center">
+                                    <a href="/tasks/?status=approved">
                                         <div class="avatar-text avatar-lg bg-gray-200">
                                             <i class="bi bi-check2-all"></i>
                                         </div>
+                                    </a>
                                         <div>
                                             <div class="fs-4 fw-bold text-dark"><span class="counter">{{ approved_tasks.count }}</span></div>
                                             <h3 class="fs-13 fw-semibold text-truncate-1-line">Bajarilgan</h3>
@@ -202,9 +206,11 @@
                             <div class="card-body">
                                 <div class="d-flex align-items-start justify-content-between mb-4">
                                     <div class="d-flex gap-4 align-items-center">
-                                        <div class="avatar-text avatar-lg bg-gray-200">
-                                            <i class="bi bi-x-octagon"></i>
-                                        </div>
+                                        <a href="/tasks/?status=expired">
+                                            <div class="avatar-text avatar-lg bg-gray-200">
+                                                <i class="bi bi-x-octagon"></i>
+                                            </div>
+                                        </a>
                                         <div>
                                             <div class="fs-4 fw-bold text-dark"><span class="counter">{{ expired_tasks.count }}</span></div>
                                             <h3 class="fs-13 fw-semibold text-truncate-1-line">Bajarilmagan</h3>
@@ -272,8 +278,8 @@
                                     <div class="d-flex justify-content-between">
                                         <div class="d-flex align-items-center gap-3">
                                             <div class="wd-50 ht-50 bg-soft-primary text-primary lh-1 d-flex align-items-center justify-content-center flex-column rounded-2 schedule-date">
-                                                <span class="fs-18 fw-bold mb-1 d-block">20</span>
-                                                <span class="fs-10 fw-semibold text-uppercase d-block">Dec</span>
+                                                <span class="fs-18 fw-bold mb-1 d-block">{{t_task.deadline|date:'d'}}</span>
+                                                <span class="fs-10 fw-semibold text-uppercase d-block">{{t_task.deadline|date:'M'}}</span>
                                             </div>
                                             <div class="text-dark">
                                                 <a href="/tasks/" class="fs-13 fw-bold mb-2 text-truncate-1-line">{{ t_task.title }}</a>
@@ -389,7 +395,7 @@
 <!--                                    </div>-->
 <!--                                </div>-->
                             </div>
-                            <a href="javascript:void(0);" class="card-footer fs-11 fw-bold text-uppercase text-center py-4">More Schedule</a>
+                            <a href="javascript:void(0);" class="card-footer fs-11 fw-bold text-uppercase text-center py-4">Barchasi</a>
                         </div>
                     </div>
                     <!-- [Upcomming Schedule] end -->
@@ -456,7 +462,7 @@
                                     {% endfor %}
                                 </div>
                             </div>
-                            <a href="javascript:void(0);" class="card-footer fs-11 fw-bold text-uppercase text-center">Upcomming Projects</a>
+                            <a href="javascript:void(0);" class="card-footer fs-11 fw-bold text-uppercase text-center">Barchasi</a>
                         </div>
                     </div>
                     <!--! END: [Project Status] !-->
@@ -924,9 +930,9 @@
                 </script>
             </p>
             <div class="d-flex align-items-center gap-4">
-                <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Help</a>
-                <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Terms</a>
-                <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Privacy</a>
+                <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Yordam</a>
+                <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Yo'riqnomalar</a>
+                <a href="https://t.me/nabiyevdev" class="fs-11 fw-semibold text-uppercase">Bog'lanish</a>
             </div>
         </footer>
         <!-- [ Footer ] end -->
