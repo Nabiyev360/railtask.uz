@@ -1,4 +1,12 @@
 import requests as req
+from UzTransliterator import UzTransliterator
+
+trans = UzTransliterator.UzTransliterator()
+
+def to_latin(txt):
+    latin_text = trans.transliterate(text=txt, from_="cyr", to="lat")
+    return latin_text
+
 
 bot_token = '8013793190:AAFmUBLpgT6MYXfwLzgVA1p0TxXxpKOgui4'
 BASE_URL = f'https://api.telegram.org/bot{bot_token}/sendMessage'
@@ -50,4 +58,6 @@ def tg_send_file_assigner(task, performer, file):
         f"🧾 <a href='https://railtask.uz/{file}'>{file.name[19:]}</a>\n\n"
     )
     send_telegram_message(task.author.tg_id, message, parse_mode='HTML')
+
+
 

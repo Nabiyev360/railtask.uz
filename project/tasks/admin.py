@@ -8,6 +8,7 @@ class TaskAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'description', 'status')
     search_fields = ('id', 'title', 'description')
     list_display_links = ('id', 'title')
+    list_filter = ('performers',)
 
 @admin.register(TaskComment)
 class TaskCommentAdmin(admin.ModelAdmin):

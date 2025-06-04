@@ -398,14 +398,14 @@
                                                     {% if request.user.profile.role == 'assigner' %}
                                                         {% if task.status == 'submitted' %}
                                                             <a class="dropdown-item delete-task" href="{% url 'tasks:update_status' task.id %}?status=approved">Nazoratdan yechish</a>
-                                                        {% else %}
+                                                        {% elif task.status == 'in_progress' %}
                                                             <a class="dropdown-item edit-task" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editTask" data-id="{{ task.id }}">O'zgartirish</a>
                                                         {% endif %}
                                                         <a class="dropdown-item delete-task" href="{% url 'tasks:delete_task' task.id %}">O'chirish</a>
-                                                    {% elif task.status != 'submitted' %}
-                                                        <a class="dropdown-item edit-task" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#answeringToTask" data-id="{{ task.id }}" onclick="updatePondServer({{ task.id }})">Javob berish</a>
+                                                    {% elif task.status not in 'approved' %}
+                                                        <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#answeringToTask" data-id="{{ task.id }}" onclick="updatePondServer({{ task.id }})">Javob berish</a>
                                                         {% if not task.deadline_extension_requests.all %}
-                                                            <a class="dropdown-item edit-task" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deadlineExtensionRequest" data-id="{{ task.id }}">Muhlat so'rash</a>
+                                                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#deadlineExtensionRequest" data-id="{{ task.id }}">Muhlat so'rash</a>
                                                         {% endif %}
                                                     {% endif %}
                                                 </div>
@@ -989,12 +989,12 @@
         <div class="comments">
             <div class="d-flex justify-content-between mb-4">
                 <div>
-                    {% if task.files.all %}
                     <h2 class="fs-16 fw-700 mb-1">Berilgan javoblar</h2>
-                    {% else %}
-                    <h2 class="fs-16 fw-700 mb-1">Javob berilmagan</h2>
-                    {% endif %}
-<!--                    <small class="text-muted">Topshiriq bo'yicha</small>-->
+                    {% for answer_text in task.answers.all %}
+                        <p>{{answer_text}}</p>
+                    {% empty %}
+                        <h4 class="fs-12 fw-700 mb-1">Javob berilmagan</h4>
+                    {% endfor %}
                 </div>
                 <a href="javascript:void(0);" class="avatar-text avatar-md">
                     <i class="feather-info"></i>
@@ -1063,7 +1063,7 @@
         </div>
         <!--! END: Answers !-->
         <div class="pt-0">
-        {% if task.files.all and task.status == 'submitted' %}
+        {% if task.status == 'submitted' %}
             <button type="button" onclick="updateTaskStatus('{{ task.id }}', 'approved')" class="btn btn-success d-inline-block mt-4">Nazoratdan yechish</button>
             <button type="button" onclick="updateTaskStatus('{{ task.id }}', 'returned')" class="btn btn-warning d-inline-block mt-4">Qayta ishlashga yuborish</button>
         {% elif task.status == 'approved' %}
@@ -1315,10 +1315,12 @@
             // Faqat agar hali yaratilmagan bo‘lsa
             if (!pond) {
                 pond = FilePond.create(inputElement, {
-                    instantUpload: false,
+                    instantUpload: true,
                     labelIdle: '📁 Faylni bu yerga tashlang yoki <span class="filepond--label-action">tanlang</span>',
                     labelFileProcessing: 'Yuborilmoqda...',
-                    labelTapToCancel: 'Bekor qilish uchun bosing',
+                    labelFileProcessingComplete: '✅ Yuklandi',
+                    labelTapToCancel: 'Bekor qilish',
+                    labelTapToUndo: "O'chirish "
                 });
             }
 
@@ -1327,7 +1329,9 @@
                 const button = event.relatedTarget;
                 const taskId = button.getAttribute('data-task-id');
                 pond.setOptions({
-                    server: `/tasks/upload-file/${taskId}/`
+                    server: `/tasks/upload-file/${taskId}/`,
+                    maxFileSize: '10MB',
+                    maxFiles: 5
                 });
             });
         });
@@ -1348,6 +1352,19 @@
             });
         }
     }
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Modal ochilishi oldidan form action ni yangilash
+            var answeringModal = document.getElementById('answeringToTask');
+            answeringModal.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget;
+                var taskId = button.getAttribute('data-id');
+                var form = answeringModal.querySelector('form');
+                form.action = `/tasks/answer-task/${taskId}`;  // yoki: `{% url 'tasks:answer_task' 0 %}` ni JS orqali tuzing
+            });
+        });
     </script>
 
 {% endblock %}

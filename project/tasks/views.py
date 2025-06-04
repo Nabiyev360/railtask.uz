@@ -1,3 +1,5 @@
+import uuid
+import os
 from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
@@ -11,9 +13,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 from django.contrib import messages
 from profiles.models import Profile
-from .models import Task, TaskComment, DeadlineExtensionRequest, TaskAnswerFile, TaskAnswer
-from .services import send_task_tg_users, tg_send_answer_assigner, tg_send_file_assigner
 from django.http import JsonResponse, Http404
+from django.utils.text import slugify
+from django.core.files.base import ContentFile
+from .models import Task, TaskComment, DeadlineExtensionRequest, TaskAnswerFile, TaskAnswer
+from .services import to_latin, send_task_tg_users, tg_send_answer_assigner, tg_send_file_assigner
+
 
 
 @login_required
@@ -230,7 +235,7 @@ def reject_deadline_view(request, extension_id):
 
 
 def set_expired_tasks():
-    expired_tasks = Task.objects.filter(deadline__lt=timezone.now()).exclude(status__in=['approved'])
+    expired_tasks = Task.objects.filter(deadline__lt=timezone.now()).exclude(status__in=['approved', 'submitted'])
     for task in expired_tasks:
         task.status = 'expired'
         task.save()
@@ -300,22 +305,32 @@ def answer_task_view(request, task_id):
     return redirect('tasks:task_list')
 
 
+
 @csrf_exempt
 def upload_file_view(request, task_id):
     if request.method == 'POST':
         task = Task.objects.get(id=task_id)
         file = request.FILES.get('filepond')
         performer = request.user.profile
+
+        # --- Fayl nomini xavfsiz formatga o‘zgartirish ---
+        original_name = file.name
+        safe_filename = to_latin(original_name).replace('ы', '_')
+        cleaned_file = ContentFile(file.read())
+        cleaned_file.name = safe_filename
+
+        # Faylni saqlash
         new_file = TaskAnswerFile.objects.create(
             task=task,
             performer=performer,
-            file=file)
+            file=cleaned_file
+        )
+
+        # Statusni o‘zgartirish
         task.status = 'submitted'
         task.save()
+
+        # Telegramga yuborish
         tg_send_file_assigner(task, performer, new_file.file)
-        return JsonResponse(
-            {"status":"success"}
-        )
-    return JsonResponse(
-        {"status": "error"}
-    )
+        return JsonResponse({"status": "success"})
+    return JsonResponse({"status": "error"})
